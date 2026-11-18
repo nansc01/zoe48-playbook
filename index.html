@@ -310,6 +310,54 @@ h2{font-size:clamp(26px,3.4vw,40px);font-weight:800}
 .tl2 li{display:flex;gap:12px;align-items:center}
 .tl2 li .ic{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--panel-2);color:var(--c);font-size:22px;flex:none}
 
+/* ===== polish: tighter spacing + richer surfaces ===== */
+body{background:radial-gradient(900px 500px at 85% -10%,#24396a 0%,transparent 60%),radial-gradient(700px 500px at -10% 110%,#2a1f4d 0%,transparent 60%),var(--ink)}
+.slide{padding:16px max(14px,3vw) 86px}
+.inner{gap:14px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px}
+.eyebrow::before{content:"";width:22px;height:3px;border-radius:2px;background:linear-gradient(90deg,var(--gold),var(--p2))}
+h2{background:linear-gradient(90deg,#fff 30%,#c9d6f2);-webkit-background-clip:text;background-clip:text;color:transparent}
+.card,.evc,.badge,.packitem,.nextcard,.taskcard,.ringcard,.step,.remkey,.flowbox,.mapcard,.clockrow,.dc{background-image:linear-gradient(160deg,rgba(255,255,255,.05),transparent 45%);box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 12px 30px -20px rgba(0,0,0,.7)}
+.card{padding:16px;border-radius:18px}
+.card:hover,.badge:hover{border-color:color-mix(in srgb,var(--c,var(--gold)) 60%,var(--line))}
+.badges,.pillars,.prepgrid,.pack,.daycards,.dodont,.after2{gap:10px}
+.badge{padding:12px;transition:transform .2s,border-color .2s}.badge:hover{transform:translateY(-2px)}
+.badge .ic,.pillar .head .ic,.prep .ic,.daybox .head .ic{box-shadow:0 6px 18px -6px var(--c)}
+.pillar .head{margin-bottom:8px}.pillar ul{gap:5px}
+.journey .jstep .ic{box-shadow:0 0 0 6px var(--ink),0 0 24px -4px var(--c)}
+
+/* schedule: tighter */
+.tl{gap:7px}
+.ph{margin-top:10px}
+.ev{grid-template-columns:78px minmax(0,1fr);gap:10px}
+.when{padding-top:10px;font-size:18px}
+.dur{margin-top:4px}
+.evc{padding:11px 14px;gap:12px}
+.evc .ic{width:42px;height:42px;font-size:22px}
+.ev.key .evc{padding:14px 16px}
+.ev.key .evc .ic{width:58px;height:58px;font-size:30px}
+.node{top:17px}.ev.key .node{top:14px}
+.durbar{margin-top:8px}
+.gap{margin-left:88px}
+.subs{margin-top:6px}
+
+/* flip cards: grow to fit, no inner scroll */
+.flip{display:flex;align-items:stretch;min-height:0;padding:0;text-align:left;transition:transform .2s}
+.flip .in{flex:1;width:100%}
+.flip:hover{transform:translateY(-3px)}
+.flip .in{display:grid;min-height:0;height:auto}
+.face{position:relative;inset:auto;grid-area:1/1;padding:16px;border-radius:18px}
+.face.back{overflow:visible;justify-content:flex-start;background:linear-gradient(160deg,color-mix(in srgb,var(--c) 18%,var(--panel-2)),var(--panel) 70%);box-shadow:0 14px 30px -18px var(--c)}
+.face.back ul{list-style:none;padding:0;gap:6px;font-size:14.5px;line-height:1.3}
+.face.back li{display:flex;gap:8px}
+.face.back li::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--c);margin-top:6px;flex:none;box-shadow:0 0 8px var(--c)}
+.face.front{min-height:180px;gap:6px;background:radial-gradient(120% 80% at 50% 0%,color-mix(in srgb,var(--c) 26%,transparent),transparent 70%),var(--panel)}
+.face.front .ic{width:80px;height:80px;border-radius:50%;display:grid;place-items:center;font-size:42px;background:color-mix(in srgb,var(--c) 14%,transparent);box-shadow:0 0 0 2px color-mix(in srgb,var(--c) 55%,transparent),0 0 30px -6px var(--c)}
+.qa .flip,.qa .flip .in{min-height:0}
+.qa .face.front{min-height:150px;background:radial-gradient(120% 80% at 50% 0%,color-mix(in srgb,var(--c) 22%,transparent),transparent 70%),var(--panel)}
+.qa .face.front .ic{width:58px;height:58px;font-size:28px}
+.qa .face.back{justify-content:center}
+
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 @media (max-width:980px){
   .hero,.dialwrap,.live,.mapgrid,.after2{grid-template-columns:1fr}
@@ -321,6 +369,7 @@ h2{font-size:clamp(26px,3.4vw,40px);font-weight:800}
   .badges{grid-template-columns:1fr 1fr}
 }
 @media (max-width:560px){
+  .face{padding:12px}.face.front{min-height:150px}
   body{font-size:16px}
   .bar{padding:8px 12px}
   .brand{font-size:15px}
@@ -423,7 +472,7 @@ h2{font-size:clamp(26px,3.4vw,40px);font-weight:800}
 
   <!-- SCHEDULE (day) -->
   <section class="slide" id="schedule" aria-label="Schedule" data-ic="rows" data-day="1">
-    <div class="inner" style="max-width:940px">
+    <div class="inner" style="max-width:1080px">
       <div><div class="eyebrow">Every step, in order</div><h2 class="dtitle">Schedule</h2><div class="dayline" data-dayline></div></div>
       <div class="dayhead" id="schedhead"></div>
       <div class="tl" id="sched"></div>
