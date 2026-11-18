@@ -361,13 +361,11 @@ h2{background:linear-gradient(90deg,#fff 30%,#c9d6f2);-webkit-background-clip:te
 .qa .face.back{justify-content:center}
 
 .brand{gap:12px}
-.brand svg.logo{height:50px;width:auto;flex:none;filter:drop-shadow(0 2px 10px rgba(240,122,50,.35))}
+.brand svg.logo{height:46px;width:auto;flex:none;filter:drop-shadow(0 0 12px rgba(127,224,255,.25))}
 .brand .bsep{width:1px;height:28px;background:var(--line)}
-.brand .num{color:var(--gold);font-size:22px}
 .brand .bt{font-size:17px;color:var(--text)}
-.mascot{width:64px;height:64px;flex:none;filter:drop-shadow(0 8px 18px rgba(0,0,0,.4));animation:wiggle 4s ease-in-out infinite;transform-origin:50% 90%}
-@keyframes wiggle{0%,80%,100%{transform:rotate(0)}85%{transform:rotate(-7deg)}90%{transform:rotate(6deg)}95%{transform:rotate(-3deg)}}
-@media (max-width:560px){.brand svg.logo{height:40px}.brand .num{font-size:18px}.brand .bt{font-size:14px}.mascot{width:52px;height:52px}}
+.herologo{display:block;width:min(420px,88%);height:auto;margin-bottom:10px;filter:drop-shadow(0 0 22px rgba(127,224,255,.3))}
+@media (max-width:560px){.brand svg.logo{height:46px;width:auto;flex:none;filter:drop-shadow(0 0 12px rgba(127,224,255,.25))}.brand .num{font-size:18px}.brand .bt{font-size:14px}}
 
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 @media (max-width:980px){
@@ -404,7 +402,7 @@ h2{background:linear-gradient(90deg,#fff 30%,#c9d6f2);-webkit-background-clip:te
 </head>
 <body>
 <header class="bar">
-  <div class="brand"><svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 196 84" role="img" aria-label="Zoe International"><defs><linearGradient id="zg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffb46a"/><stop offset="1" stop-color="#f07a32"/></linearGradient></defs><g fill="none" stroke="url(#zg)" stroke-linecap="round" stroke-linejoin="round"><path d="M8 20 C22 11 44 10 60 16" stroke-width="7"/><path d="M58 18 C46 30 30 40 16 50" stroke-width="9"/><path d="M12 52 C28 46 46 48 62 56" stroke-width="7"/><path d="M112 21 C104 12 88 12 81 22 C73 33 77 50 92 54 C106 57 117 46 116 33" stroke-width="9"/><path d="M116 33 C116 26 113 22 109 21" stroke-width="4"/><path d="M181 20 C172 9 150 11 146 22 C143 31 152 35 162 35" stroke-width="8"/><path d="M162 35 C148 35 139 42 143 52 C148 62 170 62 183 52" stroke-width="8"/><path d="M160 35 L176 35" stroke-width="5"/></g><text x="98" y="78" text-anchor="middle" font-family="Source Sans 3,Segoe UI,sans-serif" font-size="11.5" font-weight="700" letter-spacing="4.2" fill="#9fb0cc">INTERNATIONAL</text></svg><span class="bsep"></span><span class="num">48</span><span class="bt">Table Team</span></div>
+  <div class="brand"><svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 242 84" role="img" aria-label="Zoe International 48"><defs><g id="zp1" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21 C16 15 26 19 36 18 C44 17 50 14 56 12"/><path d="M54 15 C42 27 28 39 14 51"/><path d="M10 53 C20 49 30 53 40 52 C48 51 54 49 60 45"/><path d="M71 19 C66 31 66 46 80 51 C94 54 104 41 102 27 C101 21 97 18 93 21"/><path d="M143 19 C137 12 121 12 117 20 C114 28 121 33 131 33"/><path d="M131 33 C119 33 113 39 115 47 C119 55 137 55 147 47"/><path d="M129 33 L141 33"/></g></defs><g transform="translate(0 7)"><use href="#zp1" transform="translate(0.00 -0.00)"/><use href="#zp1" transform="translate(0.29 -0.54)"/><use href="#zp1" transform="translate(0.57 -1.07)"/><use href="#zp1" transform="translate(0.86 -1.61)"/><use href="#zp1" transform="translate(1.14 -2.14)"/><use href="#zp1" transform="translate(1.43 -2.68)"/><use href="#zp1" transform="translate(1.71 -3.22)"/><use href="#zp1" transform="translate(2.00 -3.75)"/><use href="#zp1" transform="translate(2.28 -4.29)"/><use href="#zp1" transform="translate(2.57 -4.82)"/><use href="#zp1" transform="translate(2.85 -5.36)"/><use href="#zp1" transform="translate(3.14 -5.90)"/><use href="#zp1" transform="translate(3.42 -6.43)"/><use href="#zp1" transform="translate(3.71 -6.97)"/><use href="#zp1" transform="translate(3.99 -7.51)"/></g><text x="6" y="77" textLength="142" lengthAdjust="spacingAndGlyphs" font-family="Bricolage Grotesque,Segoe UI,sans-serif" font-size="15" font-weight="800" fill="#fff">INTERNATIONAL</text><text x="158" y="77" textLength="80" lengthAdjust="spacingAndGlyphs" font-family="Source Sans 3,Segoe UI,sans-serif" font-size="82" font-weight="400" fill="#fff">48</text></svg><span class="bsep"></span><span class="bt">Table Team</span></div>
   <div class="days" id="days" role="group" aria-label="Choose a day"></div>
 </header>
 
@@ -415,22 +413,8 @@ h2{background:linear-gradient(90deg,#fff 30%,#c9d6f2);-webkit-background-clip:te
     <div class="inner">
       <div class="hero">
         <div style="display:flex;flex-direction:column;gap:16px;position:relative">
-          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap"><svg class="mascot" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-<rect width="64" height="64" rx="16" fill="#162340"/>
-<path d="M22 13 L14 17 L6 30 L13 34 L17 28 L17 54 L47 54 L47 28 L51 34 L58 30 L50 17 L42 13 C39 17 35 18 32 18 C29 18 25 17 22 13Z" fill="#d6dce5" stroke="#b9c2cf" stroke-width="1.5" stroke-linejoin="round"/>
-<path d="M22 13 C25 17 29 18 32 18 C35 18 39 17 42 13" fill="none" stroke="#9aa5b5" stroke-width="2"/>
-<g fill="none" stroke="#f07a32" stroke-linecap="round" stroke-width="3">
-<path d="M21 29 C25 27 29 27 31 28 L22 36 C26 35 29 35 31 37"/>
-<path d="M41 29 C38 26 34 27 34 31 C34 35 39 36 41 33"/>
-<path d="M48 29 C46 26 43 27 43 29 C43 31 45 32 46 32 C44 32 43 34 44 35 C45 37 48 36 49 35"/>
-</g>
-<circle cx="25" cy="44" r="1.6" fill="#f08ea8"/><circle cx="39" cy="44" r="1.6" fill="#f08ea8"/>
-<path d="M29.5 44.5 Q32 47 34.5 44.5" fill="none" stroke="#162340" stroke-width="1.6" stroke-linecap="round"/>
-<circle cx="27.5" cy="41.5" r="1.3" fill="#162340"/><circle cx="36.5" cy="41.5" r="1.3" fill="#162340"/>
-<path d="M54 8 l1.2 3 3 1.2 -3 1.2 -1.2 3 -1.2 -3 -3 -1.2 3 -1.2z" fill="#f0bd55"/>
-</svg>
-<span class="pilltag"><span data-icon="cal"></span>Tue Dec 1 to Fri Dec 4, 2026</span></div>
-          <h1>Zoe 48<br><em>Table Team Playbook</em></h1>
+          <span class="pilltag"><span data-icon="cal"></span>Tue Dec 1 to Fri Dec 4, 2026</span>
+          <h1><svg class="herologo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 242 84" role="img" aria-label="Zoe International 48"><defs><g id="zp2" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21 C16 15 26 19 36 18 C44 17 50 14 56 12"/><path d="M54 15 C42 27 28 39 14 51"/><path d="M10 53 C20 49 30 53 40 52 C48 51 54 49 60 45"/><path d="M71 19 C66 31 66 46 80 51 C94 54 104 41 102 27 C101 21 97 18 93 21"/><path d="M143 19 C137 12 121 12 117 20 C114 28 121 33 131 33"/><path d="M131 33 C119 33 113 39 115 47 C119 55 137 55 147 47"/><path d="M129 33 L141 33"/></g></defs><g transform="translate(0 7)"><use href="#zp2" transform="translate(0.00 -0.00)"/><use href="#zp2" transform="translate(0.29 -0.54)"/><use href="#zp2" transform="translate(0.57 -1.07)"/><use href="#zp2" transform="translate(0.86 -1.61)"/><use href="#zp2" transform="translate(1.14 -2.14)"/><use href="#zp2" transform="translate(1.43 -2.68)"/><use href="#zp2" transform="translate(1.71 -3.22)"/><use href="#zp2" transform="translate(2.00 -3.75)"/><use href="#zp2" transform="translate(2.28 -4.29)"/><use href="#zp2" transform="translate(2.57 -4.82)"/><use href="#zp2" transform="translate(2.85 -5.36)"/><use href="#zp2" transform="translate(3.14 -5.90)"/><use href="#zp2" transform="translate(3.42 -6.43)"/><use href="#zp2" transform="translate(3.71 -6.97)"/><use href="#zp2" transform="translate(3.99 -7.51)"/></g><text x="6" y="77" textLength="142" lengthAdjust="spacingAndGlyphs" font-family="Bricolage Grotesque,Segoe UI,sans-serif" font-size="15" font-weight="800" fill="#fff">INTERNATIONAL</text><text x="158" y="77" textLength="80" lengthAdjust="spacingAndGlyphs" font-family="Source Sans 3,Segoe UI,sans-serif" font-size="82" font-weight="400" fill="#fff">48</text></svg><em>Table Team Playbook</em></h1>
           <div class="mlinks" id="mlinks"></div>
         </div>
         <svg class="scene" viewBox="0 0 520 360" aria-label="Illustration of the Chateau on a winter night">
