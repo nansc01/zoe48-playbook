@@ -417,6 +417,11 @@ h2{background:linear-gradient(90deg,#fff 30%,#ffd1b0);-webkit-background-clip:te
 .tnote summary .chev{margin-left:auto;transition:transform .2s}
 .tnote[open] summary .chev{transform:rotate(90deg)}
 .tnote .nlist{padding:0 14px 12px;display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:8px 16px}
+/* lecture cards */
+.ev.lec .evc{border-color:color-mix(in srgb,var(--c) 55%,var(--line));background:linear-gradient(135deg,color-mix(in srgb,var(--c) 16%,var(--panel)) 0%,var(--panel) 65%)}
+.ev.lec .evc .ic{background:var(--c);color:var(--ink)}
+.ev.lec .node{border-radius:4px;transform:rotate(45deg)}
+.lectag{display:inline-flex;align-items:center;gap:5px;background:color-mix(in srgb,var(--c) 22%,transparent);color:var(--c);border-radius:999px;padding:3px 9px;font-size:12px;font-weight:700;font-family:var(--body)}
 /* team notes + who */
 .notes{display:grid;grid-template-columns:.8fr 1.3fr 1fr;gap:10px;align-items:start}
 .ncard{border-top:4px solid var(--c)}
@@ -429,15 +434,15 @@ h2{background:linear-gradient(90deg,#fff 30%,#ffd1b0);-webkit-background-clip:te
 .nlist li>svg{color:var(--c);margin-top:3px;font-size:17px}
 .nlist b{display:block;font-size:15px}
 .nlist span{color:var(--muted)}.nlist span b{color:var(--text)}
-.who{margin-top:10px;padding:10px 12px;border-radius:14px;background:color-mix(in srgb,var(--gold) 9%,var(--panel-2));border:1px dashed color-mix(in srgb,var(--gold) 50%,var(--line))}
-.who .k{margin-bottom:6px;color:var(--gold)}
+.whobox{margin-top:10px;padding:10px 12px;border-radius:14px;background:color-mix(in srgb,var(--gold) 9%,var(--panel-2));border:1px dashed color-mix(in srgb,var(--gold) 50%,var(--line))}
+.whobox .k{margin-bottom:6px;color:var(--gold)}
 .wrow{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px;font-size:14.5px;padding:3px 0}
 .wrow svg{color:var(--gold);align-self:center}
 .wrow span{color:var(--muted)}
 .enote{display:flex;gap:8px;align-items:flex-start;margin-top:8px;font-size:14px;color:#ffe3c8;background:#4a2a14;border-radius:12px;padding:8px 10px}
 .enote svg{color:var(--gold);margin-top:2px;flex:none}
 @media (max-width:980px){.notes{grid-template-columns:1fr}}
-@media (max-width:560px){.evc .who,.evc .enote{margin-left:-54px}.ev.key .evc .who,.ev.key .evc .enote{margin-left:-66px}}
+@media (max-width:560px){.evc .whobox,.evc .enote{margin-left:-54px}.ev.key .evc .whobox,.ev.key .evc .enote{margin-left:-66px}}
 
 /* scripts inside schedule */
 .scrs{display:flex;flex-direction:column;gap:6px;margin-top:10px}
@@ -961,7 +966,7 @@ const splitHTML=e=>e.split?`<div class="split"><div><b>TH</b>${e.split.th}</div>
 const subHTML=(e,c)=>e.sub?`<div class="subs" style="--c:${c}">${e.sub.map((x,i)=>`${i?"<i>›</i>":""}<span>${icon(x[0])}${x[1]}</span>`).join("")}</div>`:"";
 
 const chatHTML=c=>c.map((m,i)=>`<div class="bub ${m[0]}" style="animation-delay:${i*.08}s"><span class="av">${icon(m[0]==="you"?"team2":m[0]==="them"?"people":"eye")}</span><p>${m[1]}</p></div>`).join("");
-const whoHTML=e=>(e.who?`<div class="who"><div class="k">Who's on it</div>${e.who.map(w=>`<div class="wrow">${icon(w[0])}<b>${w[1]}</b><span>${w[2]}</span></div>`).join("")}</div>`:"")+(e.note?`<div class="enote">${icon("bell")}<span>${e.note}</span></div>`:"");
+const whoHTML=e=>(e.who?`<div class="whobox"><div class="k">Who's on it</div>${e.who.map(w=>`<div class="wrow">${icon(w[0])}<b>${w[1]}</b><span>${w[2]}</span></div>`).join("")}</div>`:"")+(e.note?`<div class="enote">${icon("bell")}<span>${e.note}</span></div>`:"");
 const stepsHTML=(e,c)=>e.steps?`<div class="steplist" style="--c:${c}"><div class="k">Order of the night</div><ol>${e.steps.map(x=>`<li><span class="si">${icon(x[0])}</span><span><b>${x[1]}</b><small>${x[2]}</small></span></li>`).join("")}</ol></div>`:"";
 const scrHTML=e=>e.scr?`<div class="scrs">${e.scr.map(i=>{const S=SCRIPTS[i];return `<details class="scr" style="--c:${COL[S.c]}"><summary>${icon("speech")}<span>${S.n} script</span><small>${S.where.split(" · ").pop()}</small>${icon("right","i chev")}</summary><div class="chat">${chatHTML(S.chat)}</div><button class="pbtn" data-goscr="${i}">${icon("speech")}Open in Scripts</button></details>`}).join("")}</div>`:"";
 document.addEventListener("click",ev=>{const b=ev.target.closest("[data-goscr]");if(b){si=+b.dataset.goscr;renderScripts();go("scripts")}});
@@ -1072,6 +1077,7 @@ document.getElementById("rehflow").innerHTML=REH.map((r,i)=>`${i?`<div class="ar
 /* ================= schedule ================= */
 const dur=m=>m>=60?Math.floor(m/60)+"h"+(m%60?" "+m%60+"m":""):m+"m";
 let schIO=null;
+const LEC="#6fc3ff",isLec=e=>/^Lecture/.test(e.n),ec=(e,c)=>isLec(e)?LEC:c;
 const TNOTES={all:[["people","70 EM candidates · 47 team members",""],["wrench","Esther & Ben","Tech team"],["receiver","Matthew","KM TH · still helps with receivers"],["mega","Paul Kim & Carrie","Speakers for the 3rd floor"],["pencil","Everyone","Sign your prayer logs"]],
  1:[["receiver","Yuwei + 1","Translation receivers at the Welcoming Party · 8:15pm"]],
  2:[["receiver","Yuwei + 1","Receivers for non-English speakers at Morning Prayer · 6:30am"]],
@@ -1090,9 +1096,9 @@ function renderSched(){const X=D(),sl=document.getElementById("schedule");
   h+=`<span class="anchor" id="pa${p.id}"></span><div class="ph" style="--c:${p.c}"><span class="ic">${icon(p.ic)}</span>${p.n}<small class="tnum">${fmt(evs[0].s)} · ${evs.length} ${evs.length>1?"stops":"stop"}</small></div>`;
   evs.forEach((e,i)=>{
    if(i&&e.s-evs[i-1].e>=5)h+=`<div class="gap">${icon("clock")}${dur(e.s-evs[i-1].e)} break</div>`;
-   h+=`<div class="ev ${e.key?"key":""}" data-s="${e.s}" data-e="${e.e}" style="--c:${p.c}"><span class="node"></span>`+
+   h+=`<div class="ev ${e.key?"key":""} ${isLec(e)?"lec":""}" data-s="${e.s}" data-e="${e.e}" style="--c:${ec(e,p.c)}"><span class="node"></span>`+
     `<div class="when tnum">${e.after?"After":fmt(e.s)}<small>${e.after?"send-off":(e.e>e.s?"to "+fmt(e.e):"")}</small>${e.after?"":`<span class="dur">${dur(e.e-e.s)}</span>`}</div>`+
-    `<div class="evc"><span class="ic">${icon(e.ic)}</span><div style="flex:1;min-width:0"><h3>${e.n}${e.key?`<span class="keytag">${icon("bolt")}Key</span>`:""}</h3><span class="rm">${icon("pin")}${e.w}</span><div class="task">${e.do}</div>${remHTML(e)}${splitHTML(e)}${subHTML(e,p.c)}${whoHTML(e)}${stepsHTML(e,p.c)}${scrHTML(e)}<div class="durbar" style="--d:${((e.e-e.s)/maxD).toFixed(3)}"></div></div></div></div>`})});
+    `<div class="evc"><span class="ic">${icon(e.ic)}</span><div style="flex:1;min-width:0"><h3>${e.n}${isLec(e)?`<span class="lectag">${icon("book")}Lecture</span>`:""}${e.key?`<span class="keytag">${icon("bolt")}Key</span>`:""}</h3><span class="rm">${icon("pin")}${e.w}</span><div class="task">${e.do}</div>${remHTML(e)}${splitHTML(e)}${subHTML(e,ec(e,p.c))}${whoHTML(e)}${stepsHTML(e,p.c)}${scrHTML(e)}<div class="durbar" style="--d:${((e.e-e.s)/maxD).toFixed(3)}"></div></div></div></div>`})});
  const tl=document.getElementById("sched");tl.innerHTML=h;
  document.querySelectorAll("#schedhead .ribbon button").forEach(b=>b.addEventListener("click",()=>{const a=document.getElementById("pa"+b.dataset.p);
   sl.scrollTo({top:sl.scrollTop+a.getBoundingClientRect().top-sl.getBoundingClientRect().top-4,behavior:"smooth"})}));
@@ -1117,7 +1123,7 @@ function renderDial(){const X=D();
    s+=`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#d4b3a2"/><text x="${x}" y="${y+4}" text-anchor="middle" fill="#d4b3a2" font-size="13" font-family="Source Sans 3">${fmt(m)}</text>`}
  X.PH.forEach(p=>{s+=`<path d="${arc(128,134,ang(p.s),ang(p.e))}" fill="${p.c}" opacity=".5"/>`});
  X.EV.forEach((e,i)=>{const p=ph(e.p),a0=ang(e.s)+.5,a1=Math.max(ang(e.e)-.5,a0+2.4),on=i===sel,r1=on?224:212,mid=(a0+a1)/2,[ix,iy]=pol(on?183:176,mid);
-   s+=`<g class="seg ${on?"sel":""}" data-i="${i}" style="--glow:${p.c}" tabindex="0" role="button" aria-label="${e.n}, ${span(e)}"><path d="${arc(142,r1,a0,a1)}" fill="${p.c}" opacity="${on?1:.55}"/>`;
+   s+=`<g class="seg ${on?"sel":""}" data-i="${i}" style="--glow:${p.c}" tabindex="0" role="button" aria-label="${e.n}, ${span(e)}"><path d="${arc(142,r1,a0,a1)}" fill="${ec(e,p.c)}" opacity="${on?1:.55}"/>`;
    if(a1-a0>12||on)s+=`<g transform="translate(${ix-11} ${iy-11})" color="#1a110d"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${IC[e.ic]}</svg></g>`;
    s+=`</g>`});
  const d=document.getElementById("dialsvg");d.innerHTML=s;
@@ -1128,7 +1134,7 @@ function renderDial(){const X=D();
  const tc=document.getElementById("taskcard");tc.style.setProperty("--c",p.c);
  tc.innerHTML=`<span class="avatar">${icon("team2")}</span><div style="display:flex;flex-direction:column;gap:6px;flex:1"><span class="who">Table Team</span><span class="do">${e.do}</span>${remHTML(e)}${splitHTML(e)}${whoHTML(e)}${subHTML(e,p.c)}<span class="rm">${icon("pin")}${e.w}</span>${e.key?`<span class="keytag">${icon("bolt")}Key moment</span>`:""}</div>`;
  const st=document.getElementById("strip");
- st.innerHTML=X.EV.map((x,i)=>`<button class="tile" style="--c:${ph(x.p).c}" data-i="${i}" aria-pressed="${i===sel}">${x.rem&&x.rem[0][0]!=="none"?`<span class="rdot ${x.rem[0][0]}"></span>`:""}<span class="ic">${icon(x.ic)}</span><span class="tnum">${x.after?"After":fmt(x.s)}</span></button>`).join("");
+ st.innerHTML=X.EV.map((x,i)=>`<button class="tile" style="--c:${ec(x,ph(x.p).c)}" data-i="${i}" aria-pressed="${i===sel}">${x.rem&&x.rem[0][0]!=="none"?`<span class="rdot ${x.rem[0][0]}"></span>`:""}<span class="ic">${icon(x.ic)}</span><span class="tnum">${x.after?"After":fmt(x.s)}</span></button>`).join("");
  st.querySelectorAll(".tile").forEach(b=>b.addEventListener("click",()=>{sel=+b.dataset.i;stopPlay();renderDial()}));
  const t=st.children[sel];if(t)st.scrollTo({left:t.offsetLeft-st.clientWidth/2+t.clientWidth/2,behavior:"smooth"});
 }
