@@ -378,6 +378,39 @@ h2{background:linear-gradient(90deg,#fff 30%,#c9d6f2);-webkit-background-clip:te
 .steplist li b{display:block;font-size:15.5px}
 .steplist li small{display:block;color:var(--muted);font-size:13.5px;line-height:1.3}
 @media (max-width:560px){.evc .steplist{margin-left:-66px}}
+/* inventory */
+.invstats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.istat{display:flex;gap:12px;align-items:center;padding:14px;border-radius:18px;border:1px solid var(--line);background:linear-gradient(140deg,color-mix(in srgb,var(--c) 22%,var(--panel)),var(--panel) 70%);box-shadow:0 12px 30px -20px var(--c)}
+.istat .ic{width:50px;height:50px;border-radius:15px;display:grid;place-items:center;font-size:26px;background:var(--c);color:var(--ink);flex:none}
+.istat b{display:block;font-family:var(--display);font-size:30px;line-height:1}
+.istat span{display:block;font-weight:700;font-size:14px;margin-top:3px}
+.istat small{display:block;color:var(--muted);font-size:13px}
+.invgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px;align-items:start}
+.invcard{border-top:4px solid var(--c);padding:14px}
+.invhead{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.invhead .ic{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;font-size:23px;background:var(--c);color:var(--ink);flex:none;box-shadow:0 6px 18px -6px var(--c)}
+.invhead b{font-family:var(--display);font-size:19px;display:block}
+.invhead small{color:var(--muted);font-size:13px}
+.invtot{margin-left:auto;font-family:var(--display);font-weight:800;font-size:26px;color:var(--c)}
+.invlist{display:flex;flex-direction:column;gap:4px}
+.invitem{display:flex;align-items:center;gap:10px;text-align:left;padding:7px 10px;border-radius:11px;background:var(--panel-2);border:1px solid transparent;transition:background .2s,border-color .2s}
+.invitem .chk{color:var(--muted);font-size:17px;display:grid}
+.invitem .nm{flex:1;font-size:15px;font-weight:600}
+.invitem .nm i{display:block;font-style:normal;font-weight:400;font-size:12.5px;color:var(--gold)}
+.invitem .q{font-family:var(--display);font-weight:800;font-size:18px}
+.invitem[aria-pressed="true"]{background:#173f33;border-color:#62d6a4}
+.invitem[aria-pressed="true"] .chk{color:#62d6a4}
+.users{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ucard{border-top:4px solid var(--c)}
+.ubar{display:grid;grid-template-columns:80px 1fr 34px;gap:10px;align-items:center;font-size:14.5px;margin-bottom:5px}
+.ubar .track{height:10px;border-radius:5px;background:var(--panel-2);overflow:hidden}
+.ubar .track i{display:block;height:100%;border-radius:5px;background:var(--c)}
+.ubar b{text-align:right;font-family:var(--display)}
+.ufoot{display:flex;align-items:center;gap:8px;margin-top:12px;padding-top:10px;border-top:1px dashed var(--line);color:var(--muted);font-size:14px}
+.ufoot svg{color:var(--c)}
+@media (max-width:980px){.invstats{grid-template-columns:1fr 1fr}.users{grid-template-columns:1fr}}
+@media (max-width:560px){.istat{padding:10px;gap:9px}.istat .ic{width:40px;height:40px;font-size:21px}.istat b{font-size:24px}.istat span{font-size:12.5px}}
+
 /* scripts inside schedule */
 .scrs{display:flex;flex-direction:column;gap:6px;margin-top:10px}
 .scr{border:1px solid color-mix(in srgb,var(--c) 45%,var(--line));border-radius:14px;background:color-mix(in srgb,var(--c) 9%,var(--panel-2))}
@@ -503,6 +536,18 @@ h2{background:linear-gradient(90deg,#fff 30%,#c9d6f2);-webkit-background-clip:te
       <div class="pack" id="pack"></div>
       <div><div class="eyebrow">Rehearsal night</div><h2 style="font-size:28px">Then set up the Chateau</h2></div>
       <div class="flowbox"><div class="flow" id="rehflow"></div></div>
+    </div>
+  </section>
+
+  <!-- INVENTORY -->
+  <section class="slide" id="inventory" aria-label="Translation inventory" data-ic="receiver">
+    <div class="inner">
+      <div><div class="eyebrow">EM Table Helper / Translation Team</div><h2>Translation inventory</h2><div class="dayline"><span data-icon="form"></span>Counted 11/13/26 by Matthew + Translation Team</div></div>
+      <div class="invstats" id="invstats"></div>
+      <div style="display:flex;align-items:end;justify-content:space-between;gap:12px;flex-wrap:wrap"><div class="tapnote"><span data-icon="hand"></span>Tap an item when you've counted it on site</div><div style="display:flex;gap:10px;align-items:center"><span class="packcount" id="invcount"></span><button class="pbtn" id="invreset">Reset</button></div></div>
+      <div class="invgrid" id="invgrid"></div>
+      <div><div class="eyebrow">Who needs translation</div><h2 style="font-size:28px">Translation users</h2></div>
+      <div class="users" id="users"></div>
     </div>
   </section>
 
@@ -908,7 +953,7 @@ function setDay(d){day=d;try{localStorage.setItem("zoe48day",d)}catch(e){}
 document.getElementById("daycards").innerHTML=[1,2,3,4].map(d=>{const X=DAYS[d],c=COL[d===4?4:d];const ks=X.EV.filter(e=>e.key).slice(0,4);
  return `<button class="dc" style="--c:${COL[[0,1,2,3,5][d]]}" data-d="${d}"><span class="n">${X.name}</span><span class="d">${X.date}</span><span class="th">${X.theme}</span><span class="ics">${ks.map(e=>icon(e.ic)).join("")}</span></button>`}).join("");
 document.querySelectorAll(".dc").forEach(b=>b.addEventListener("click",()=>{setDay(+b.dataset.d);go("schedule")}));
-document.getElementById("mlinks").innerHTML=[["team","team2","Team basics"],["prep","pack","Prep + rehearsal"],["scripts","speech","Scripts"],["after","mail","After Zoe"]].map(x=>`<button class="pbtn" data-go="${x[0]}">${icon(x[1])}${x[2]}</button>`).join("");
+document.getElementById("mlinks").innerHTML=[["team","team2","Team basics"],["prep","pack","Prep + rehearsal"],["inventory","receiver","Inventory"],["scripts","speech","Scripts"],["after","mail","After Zoe"]].map(x=>`<button class="pbtn" data-go="${x[0]}">${icon(x[1])}${x[2]}</button>`).join("");
 document.querySelectorAll("#mlinks button").forEach(b=>b.addEventListener("click",()=>go(b.dataset.go)));
 (function(){const cv=document.getElementById("snow"),cx=cv.getContext("2d");let W,H,fl=[];
  const rm=matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -951,6 +996,39 @@ function renderPack(){document.getElementById("pack").innerHTML=PACK.map((p,i)=>
  document.getElementById("packcount").textContent=`${packed.size} / ${PACK.length} packed`;
  document.querySelectorAll(".packitem").forEach(b=>b.addEventListener("click",()=>{const i=+b.dataset.i;packed.has(i)?packed.delete(i):packed.add(i);renderPack()}))}
 renderPack();
+
+/* ================= inventory ================= */
+const INV=[
+ {n:"Receivers",ic:"receiver",c:1,note:"12 fewer than last year",items:[["Receiver 216 · Old",42],["Receiver 216 · New",70,"with charging box"],["Receiver 72",47]]},
+ {n:"Portable transmitters",ic:"mega",c:2,items:[["Portable Transmitter 216",3],["Portable Transmitter 72",6,"for other languages"]]},
+ {n:"Translation booth",ic:"booth",c:3,note:"Set up by the tech team",items:[["Transmitter",2],["Mixer",1],["Mic",2],["Mic stand",2]]},
+ {n:"Accessories",ic:"headset",c:4,items:[["Charging box for new 216",6],["Docking station case",9],["Earphones",149,"will buy extra 30"],["Splitters",25],["Mics (for translators)",6],["Batteries",null,"will buy 200"],["Power surge protector",6]]},
+ {n:"Portable charging units",ic:"battery",c:5,items:[["Portable charger",4],["Adapter",4],["USB-C",4],["Micro USB cables",40],["USB hub",4],["Clear box",4]]}
+];
+const tot=g=>g.items.reduce((a,x)=>a+(x[1]||0),0);
+document.getElementById("invstats").innerHTML=[
+ ["receiver",tot(INV[0]),"Receivers","12 fewer than last year",1],
+ ["mega",tot(INV[1]),"Portable transmitters","216 + 72 channels",2],
+ ["headset",149,"Earphones","+30 to buy",4],
+ ["basket","To buy","30 earphones · 200 batteries","",5]
+].map(x=>`<div class="istat" style="--c:${COL[x[4]]}"><span class="ic">${icon(x[0])}</span><div><b class="tnum">${x[1]}</b><span>${x[2]}</span>${x[3]?`<small>${x[3]}</small>`:""}</div></div>`).join("");
+let invDone=new Set();try{invDone=new Set(JSON.parse(localStorage.getItem("zoe48inv")||"[]"))}catch(e){}
+const invN=INV.reduce((a,g)=>a+g.items.length,0);
+function renderInv(){
+ document.getElementById("invgrid").innerHTML=INV.map((g,gi)=>`<div class="card invcard" style="--c:${COL[g.c]}"><div class="invhead"><span class="ic">${icon(g.ic)}</span><div><b>${g.n}</b>${g.note?`<small>${g.note}</small>`:""}</div>${g.c<=2?`<span class="invtot tnum">${tot(g)}</span>`:""}</div><div class="invlist">${g.items.map((x,i)=>{const k=gi+"-"+i,on=invDone.has(k);return `<button class="invitem" aria-pressed="${on}" data-k="${k}"><span class="chk">${icon(on?"check":"box")}</span><span class="nm">${x[0]}${x[2]?`<i>${x[2]}</i>`:""}</span><span class="q tnum">${x[1]??"–"}</span></button>`}).join("")}</div></div>`).join("");
+ document.getElementById("invcount").textContent=`${invDone.size} / ${invN} counted`;
+ document.querySelectorAll(".invitem").forEach(b=>b.addEventListener("click",()=>{const k=b.dataset.k;invDone.has(k)?invDone.delete(k):invDone.add(k);try{localStorage.setItem("zoe48inv",JSON.stringify([...invDone]))}catch(e){}renderInv()}))}
+renderInv();
+document.getElementById("invreset").addEventListener("click",()=>{invDone.clear();try{localStorage.removeItem("zoe48inv")}catch(e){}renderInv()});
+const USERS=[
+ {n:"Zoe 47",sub:"Actual users last year",c:3,cand:[["English",74],["Romanian",6],["Spanish",7],["Chinese",0]],team:54},
+ {n:"Zoe 48",sub:"Estimated headcount by 11/13",c:4,cand:[["English",null],["Polish",null],["Czech",null],["Spanish",null],["Chinese",null]],team:47}
+];
+document.getElementById("users").innerHTML=USERS.map(u=>{const ct=u.cand.reduce((a,x)=>a+(x[1]||0),0),all=ct+u.team,mx=Math.max(1,...u.cand.map(x=>x[1]||0),u.team);
+ return `<div class="card ucard" style="--c:${COL[u.c]}"><div class="invhead"><span class="ic">${icon("people")}</span><div><b>${u.n}</b><small>${u.sub}</small></div><span class="invtot tnum">${all}</span></div>
+ <div class="k" style="margin:4px 0 6px">Candidates · ${ct||"not in yet"}</div>${u.cand.map(x=>`<div class="ubar"><span>${x[0]}</span><div class="track"><i style="width:${(x[1]||0)/mx*100}%"></i></div><b class="tnum">${x[1]??"–"}</b></div>`).join("")}
+ <div class="k" style="margin:10px 0 6px">Team members</div><div class="ubar"><span>English</span><div class="track"><i style="width:${u.team/mx*100}%;background:var(--gold)"></i></div><b class="tnum">${u.team}</b></div>
+ <div class="ufoot">${u.n==="Zoe 47"?`${icon("check")}159 receivers this year covers last year's ${all} users`:`${icon("clock")}Candidate languages still to be filled in`}</div></div>`}).join("");
 const REH=[["church","After KM service"],["car","Drive to the Chateau"],["plate","Dinner + service"],["booth","Booth, tables, monitors"],["receiver","Check + label receivers"],["battery","Batteries into cases"],["star","Welcoming Party table"],["rows","Round tables + chairs"]];
 document.getElementById("rehflow").innerHTML=REH.map((r,i)=>`${i?`<div class="arrowcol">${icon("right")}</div>`:""}<div class="fstep" style="--c:${COL[(i%5)+1]}"><span class="num">${i+1}</span><span class="ic">${icon(r[0])}</span>${r[1]}</div>`).join("");
 
@@ -1135,7 +1213,7 @@ document.getElementById("after2").innerHTML=`
 /* ================= deck nav ================= */
 const slides=[...document.querySelectorAll(".slide")];
 const dots=document.getElementById("dots");
-dots.innerHTML=slides.map((s,i)=>`${i===3||i===9?'<span class="sep"></span>':""}<button aria-label="${s.getAttribute("aria-label")}" title="${s.getAttribute("aria-label")}" data-go="${s.id}">${icon(s.dataset.ic)}</button>`).join("");
+dots.innerHTML=slides.map((s,i)=>`${i===4||i===10?'<span class="sep"></span>':""}<button aria-label="${s.getAttribute("aria-label")}" title="${s.getAttribute("aria-label")}" data-go="${s.id}">${icon(s.dataset.ic)}</button>`).join("");
 dots.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>go(b.dataset.go)));
 let cur=0;
 function go(id){const i=slides.findIndex(s=>s.id===id);if(i<0)return;
