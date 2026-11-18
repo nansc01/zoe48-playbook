@@ -411,6 +411,12 @@ h2{background:linear-gradient(90deg,#fff 30%,#ffd1b0);-webkit-background-clip:te
 @media (max-width:980px){.invstats{grid-template-columns:1fr 1fr}.users{grid-template-columns:1fr}}
 @media (max-width:560px){.istat{padding:10px;gap:9px}.istat .ic{width:40px;height:40px;font-size:21px}.istat b{font-size:24px}.istat span{font-size:12.5px}}
 
+.tnote{border-radius:16px;border:1px solid color-mix(in srgb,var(--gold) 45%,var(--line));background:linear-gradient(140deg,color-mix(in srgb,var(--gold) 14%,var(--panel)),var(--panel) 70%);--c:var(--gold)}
+.tnote summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:8px;padding:11px 14px;font-weight:800;font-family:var(--display);font-size:17px;color:var(--gold)}
+.tnote summary::-webkit-details-marker{display:none}
+.tnote summary .chev{margin-left:auto;transition:transform .2s}
+.tnote[open] summary .chev{transform:rotate(90deg)}
+.tnote .nlist{padding:0 14px 12px;display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:8px 16px}
 /* team notes + who */
 .notes{display:grid;grid-template-columns:.8fr 1.3fr 1fr;gap:10px;align-items:start}
 .ncard{border-top:4px solid var(--c)}
@@ -1066,11 +1072,17 @@ document.getElementById("rehflow").innerHTML=REH.map((r,i)=>`${i?`<div class="ar
 /* ================= schedule ================= */
 const dur=m=>m>=60?Math.floor(m/60)+"h"+(m%60?" "+m%60+"m":""):m+"m";
 let schIO=null;
+const TNOTES={all:[["people","70 EM candidates · 47 team members",""],["wrench","Esther & Ben","Tech team"],["receiver","Matthew","KM TH · still helps with receivers"],["mega","Paul Kim & Carrie","Speakers for the 3rd floor"],["pencil","Everyone","Sign your prayer logs"]],
+ 1:[["receiver","Yuwei + 1","Translation receivers at the Welcoming Party · 8:15pm"]],
+ 2:[["receiver","Yuwei + 1","Receivers for non-English speakers at Morning Prayer · 6:30am"]],
+ 3:[["pool","Baptism crew · 5:25pm","Charles · Julie & Soohyun · Nancy & Esther on receivers · Pin on glasses · Jackie on shower caps"],["bell","Baptism","Must come on LD + serious faith life · explain to those who want the Holy Spirit but not baptism"]],
+ 4:[]};
+const tnHTML=()=>{const L=[...(TNOTES[day]||[]),...TNOTES.all];return `<details class="tnote" open><summary>${icon("bell")}<span>Team notes for ${D().name}</span>${icon("right","i chev")}</summary><ul class="nlist">${L.map(x=>`<li>${icon(x[0])}<span><b>${x[1]}</b>${x[2]}</span></li>`).join("")}</ul></details>`};
 function renderSched(){const X=D(),sl=document.getElementById("schedule");
  const rc=X.EV.filter(e=>e.rem).flatMap(e=>e.rem.filter(r=>r[0]!=="none").map(r=>[fmt(e.s),r]));
  const maxD=Math.max(...X.EV.map(e=>e.e-e.s)),keys=X.EV.filter(e=>e.key).length;
  document.getElementById("schedhead").innerHTML=
-  `<div class="stats"><span>${icon("rows")}${X.EV.length} stops</span><span>${icon("bolt")}${keys} key moments</span><span class="tnum">${icon("clock")}${fmt(X.T0)} to ${fmt(X.T1)}</span></div>`+
+  `<div class="stats"><span>${icon("rows")}${X.EV.length} stops</span><span>${icon("bolt")}${keys} key moments</span><span class="tnum">${icon("clock")}${fmt(X.T0)} to ${fmt(X.T1)}</span></div>`+tnHTML()+
   `<div class="ribbon">${X.PH.map(p=>`<button data-p="${p.id}" style="--c:${p.c};--f:${p.e-p.s}" title="${p.n} · from ${fmt(p.s)}" aria-label="Jump to ${p.n}">${icon(p.ic)}<span>${p.n}</span></button>`).join("")}<span class="needle" id="needle"></span></div>`+
   `<div class="remkey"><span class="k">TA reminders today</span>${rc.map(([t,r])=>`<span class="rem ${r[0]}" style="animation:none"><b class="tnum">${t}</b>${icon(r[0]==="charge"?"battery":"rows")}${r[1]}</span>`).join("")||`<span class="rem none">None</span>`}</div>`;
  let h="";
@@ -1114,7 +1126,7 @@ function renderDial(){const X=D();
  c.style.setProperty("--c",p.c);
  c.innerHTML=`<span class="big">${icon(e.ic)}</span><h3>${e.n}</h3><span class="tm tnum">${span(e)}</span>`;
  const tc=document.getElementById("taskcard");tc.style.setProperty("--c",p.c);
- tc.innerHTML=`<span class="avatar">${icon("team2")}</span><div style="display:flex;flex-direction:column;gap:6px;flex:1"><span class="who">Table Team</span><span class="do">${e.do}</span>${remHTML(e)}${splitHTML(e)}${subHTML(e,p.c)}<span class="rm">${icon("pin")}${e.w}</span>${e.key?`<span class="keytag">${icon("bolt")}Key moment</span>`:""}</div>`;
+ tc.innerHTML=`<span class="avatar">${icon("team2")}</span><div style="display:flex;flex-direction:column;gap:6px;flex:1"><span class="who">Table Team</span><span class="do">${e.do}</span>${remHTML(e)}${splitHTML(e)}${whoHTML(e)}${subHTML(e,p.c)}<span class="rm">${icon("pin")}${e.w}</span>${e.key?`<span class="keytag">${icon("bolt")}Key moment</span>`:""}</div>`;
  const st=document.getElementById("strip");
  st.innerHTML=X.EV.map((x,i)=>`<button class="tile" style="--c:${ph(x.p).c}" data-i="${i}" aria-pressed="${i===sel}">${x.rem&&x.rem[0][0]!=="none"?`<span class="rdot ${x.rem[0][0]}"></span>`:""}<span class="ic">${icon(x.ic)}</span><span class="tnum">${x.after?"After":fmt(x.s)}</span></button>`).join("");
  st.querySelectorAll(".tile").forEach(b=>b.addEventListener("click",()=>{sel=+b.dataset.i;stopPlay();renderDial()}));
