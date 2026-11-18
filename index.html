@@ -1083,7 +1083,7 @@ const TNOTES={all:[["people","70 EM candidates · 47 team members",""],["wrench"
  2:[["receiver","Yuwei + 1","Receivers for non-English speakers at Morning Prayer · 6:30am"]],
  3:[["pool","Baptism crew · 5:25pm","Charles · Julie & Soohyun · Nancy & Esther on receivers · Pin on glasses · Jackie on shower caps"],["bell","Baptism","Must come on LD + serious faith life · explain to those who want the Holy Spirit but not baptism"]],
  4:[]};
-const tnHTML=()=>{const L=[...(TNOTES[day]||[]),...TNOTES.all];return `<details class="tnote" open><summary>${icon("bell")}<span>Team notes for ${D().name}</span>${icon("right","i chev")}</summary><ul class="nlist">${L.map(x=>`<li>${icon(x[0])}<span><b>${x[1]}</b>${x[2]}</span></li>`).join("")}</ul></details>`};
+const tnHTML=()=>{const L=[...(TNOTES[day]||[]),...(day===1?TNOTES.all:[])];if(!L.length)return "";return `<details class="tnote" open><summary>${icon("bell")}<span>Team notes for ${D().name}</span>${icon("right","i chev")}</summary><ul class="nlist">${L.map(x=>`<li>${icon(x[0])}<span><b>${x[1]}</b>${x[2]}</span></li>`).join("")}</ul></details>`};
 function renderSched(){const X=D(),sl=document.getElementById("schedule");
  const rc=X.EV.filter(e=>e.rem).flatMap(e=>e.rem.filter(r=>r[0]!=="none").map(r=>[fmt(e.s),r]));
  const maxD=Math.max(...X.EV.map(e=>e.e-e.s)),keys=X.EV.filter(e=>e.key).length;
