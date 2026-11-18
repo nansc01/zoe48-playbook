@@ -155,22 +155,49 @@ h2{font-size:clamp(26px,3.4vw,40px);font-weight:800}
 .packitem[aria-pressed="true"] .ic{color:#62d6a4}
 .packcount{font-family:var(--display);font-weight:800;color:var(--gold)}
 
-/* schedule list */
-.sched{display:flex;flex-direction:column;gap:6px}
-.sgroup{display:flex;align-items:center;gap:10px;margin:18px 0 6px;font-family:var(--display);font-size:20px;font-weight:800;color:var(--c)}
-.sgroup:first-child{margin-top:0}
-.sgroup .ic{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--c);color:var(--ink);font-size:20px}
-.sgroup small{font-family:var(--body);font-size:14px;font-weight:600;color:var(--muted)}
-.row{display:grid;grid-template-columns:104px 52px 1fr;gap:14px;align-items:center;padding:12px 16px;border-radius:16px;background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--c);transition:transform .2s,background .2s}
-.row:hover{transform:translateX(4px);background:var(--panel-2)}
-.row.key{background:linear-gradient(90deg,rgba(240,142,168,.12),var(--panel) 60%)}
-.row .t{font-family:var(--display);font-weight:800;font-size:20px;line-height:1.1}
-.row .t small{display:block;font-family:var(--body);font-weight:400;font-size:13px;color:var(--muted)}
-.row .ic{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;font-size:28px;background:var(--c);color:var(--ink)}
-.row h3{font-size:19px;display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+/* schedule timeline */
 .rm{color:var(--muted);font-size:14px;display:inline-flex;align-items:center;gap:4px;font-family:var(--body);font-weight:400}
-.row .task{font-size:16px;margin-top:2px}
-.row .split{max-width:560px}
+.dayhead{display:flex;flex-direction:column;gap:12px}
+.stats{display:flex;flex-wrap:wrap;gap:8px}
+.stats span{display:inline-flex;align-items:center;gap:6px;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:5px 12px;font-weight:700;font-size:14px}
+.stats span svg{color:var(--gold)}
+.ribbon{position:relative;display:flex;gap:4px;padding:5px;border-radius:18px;background:var(--panel);border:1px solid var(--line)}
+.ribbon button{flex:var(--f) 1 0;min-width:46px;height:58px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border-radius:13px;background:color-mix(in srgb,var(--c) 20%,transparent);color:var(--c);font-size:12px;font-weight:700;overflow:hidden;white-space:nowrap;transition:background .2s,color .2s,transform .2s}
+.ribbon button:hover,.ribbon button:focus-visible{background:var(--c);color:var(--ink);transform:translateY(-2px)}
+.ribbon button .i{font-size:21px}
+.needle{position:absolute;top:-5px;bottom:-5px;width:3px;margin-left:-1.5px;border-radius:2px;background:#fff;box-shadow:0 0 12px #fff;display:none;pointer-events:none}
+.needle.on{display:block}
+.tl{position:relative;display:flex;flex-direction:column;gap:10px;padding-left:36px}
+.tl::before{content:"";position:absolute;left:14px;top:0;bottom:0;width:4px;border-radius:2px;background:linear-gradient(var(--p1),var(--p2) 30%,var(--p3) 55%,var(--p4) 80%,var(--p5));opacity:.5}
+.anchor{display:block;height:0}
+.ph{position:sticky;top:0;z-index:3;margin:16px 0 2px -36px;display:flex;align-items:center;gap:10px;padding:9px 14px;border-radius:16px;background:rgba(13,22,40,.92);backdrop-filter:blur(8px);border:1px solid var(--line);font-family:var(--display);font-weight:800;font-size:20px;color:var(--c)}
+.anchor:first-child + .ph{margin-top:0}
+.ph .ic{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;background:var(--c);color:var(--ink);font-size:20px}
+.ph small{margin-left:auto;font-family:var(--body);font-size:13px;font-weight:700;color:var(--muted)}
+.ev{position:relative;display:grid;grid-template-columns:92px minmax(0,1fr);gap:12px;align-items:start;opacity:0;transform:translateY(18px);transition:opacity .5s,transform .5s}
+.ev.in{opacity:1;transform:none}
+.ev.in.past{opacity:.42}
+.node{position:absolute;left:-29px;top:20px;width:14px;height:14px;border-radius:50%;background:var(--c);box-shadow:0 0 0 4px var(--ink)}
+.ev.key .node{left:-33px;top:18px;width:22px;height:22px;box-shadow:0 0 0 4px var(--ink),0 0 18px var(--c)}
+.ev.key .node::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid var(--c);animation:ripple 2.2s ease-out infinite}
+@keyframes ripple{from{transform:scale(.6);opacity:1}to{transform:scale(1.9);opacity:0}}
+.when{padding-top:12px;font-family:var(--display);font-weight:800;font-size:19px;line-height:1.1}
+.when small{display:block;font-family:var(--body);font-weight:600;font-size:13px;color:var(--muted)}
+.dur{display:inline-block;margin-top:6px;padding:2px 8px;border-radius:999px;background:var(--panel-2);color:var(--c);font-family:var(--body);font-size:12px;font-weight:700}
+.evc{display:flex;gap:14px;align-items:flex-start;padding:14px 16px;border-radius:18px;background:var(--panel);border:1px solid var(--line);transition:transform .2s,border-color .2s}
+.evc:hover{transform:translateX(4px);border-color:var(--c)}
+.evc .ic{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:24px;background:color-mix(in srgb,var(--c) 22%,transparent);color:var(--c);flex:none}
+.evc h3{font-size:18px;display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.evc .task{font-size:16px;margin-top:3px}
+.evc .split{max-width:560px}
+.durbar{height:4px;border-radius:2px;margin-top:10px;background:linear-gradient(90deg,var(--c),transparent);width:calc(var(--d) * 100%);min-width:24px}
+.ev.key .evc{padding:18px;border:1.5px solid var(--c);background:linear-gradient(135deg,color-mix(in srgb,var(--c) 24%,var(--panel)) 0%,var(--panel) 62%);box-shadow:0 14px 34px -18px var(--c)}
+.ev.key .evc .ic{width:64px;height:64px;font-size:34px;background:var(--c);color:var(--ink);animation:bob 3s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-4px)}}
+.ev.key h3{font-size:22px}
+.ev.now .evc{outline:2px solid #fff;outline-offset:3px}
+.ev.now .when::after{content:"NOW";display:inline-block;margin-top:6px;padding:2px 8px;border-radius:999px;background:#fff;color:var(--ink);font-family:var(--body);font-size:12px;font-weight:800;letter-spacing:.08em}
+.gap{margin-left:104px;display:flex;align-items:center;gap:6px;color:var(--muted);font-size:13px;font-weight:600}
 
 /* dial */
 .dialwrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:26px;align-items:center}
@@ -301,9 +328,16 @@ h2{font-size:clamp(26px,3.4vw,40px);font-weight:800}
   .days button{flex:1;padding:5px 6px}
   .roles,.badges,.dodont{grid-template-columns:1fr 1fr}
   .pack{grid-template-columns:repeat(2,1fr)}
-  .row{grid-template-columns:44px 1fr;gap:10px;padding:10px 12px}
-  .row .t{grid-column:1/-1;font-size:17px}.row .t small{display:inline;margin-left:6px}
-  .row .ic{width:44px;height:44px;font-size:24px}.row h3{font-size:17px}
+  .tl{padding-left:28px}.tl::before{left:10px}
+  .ph{margin-left:-28px;font-size:18px}
+  .ev{grid-template-columns:1fr;gap:6px}
+  .when{padding-top:0;display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;font-size:17px}
+  .when small{display:inline}.dur,.ev.now .when::after{margin-top:0}
+  .node{left:-24px;top:4px}.ev.key .node{left:-28px;top:0}
+  .gap{margin-left:0}
+  .ribbon button span{display:none}
+  .evc{padding:12px}.ev.key .evc{padding:14px}
+  .ev.key .evc .ic{width:52px;height:52px;font-size:28px}.ev.key h3{font-size:19px}
   .qa{grid-template-columns:1fr}
 }
 </style>
@@ -391,7 +425,8 @@ h2{font-size:clamp(26px,3.4vw,40px);font-weight:800}
   <section class="slide" id="schedule" aria-label="Schedule" data-ic="rows" data-day="1">
     <div class="inner" style="max-width:940px">
       <div><div class="eyebrow">Every step, in order</div><h2 class="dtitle">Schedule</h2><div class="dayline" data-dayline></div></div>
-      <div class="sched" id="sched"></div>
+      <div class="dayhead" id="schedhead"></div>
+      <div class="tl" id="sched"></div>
     </div>
   </section>
 
@@ -830,13 +865,33 @@ const REH=[["church","After KM service"],["car","Drive to the Chateau"],["plate"
 document.getElementById("rehflow").innerHTML=REH.map((r,i)=>`${i?`<div class="arrowcol">${icon("right")}</div>`:""}<div class="fstep" style="--c:${COL[(i%5)+1]}"><span class="num">${i+1}</span><span class="ic">${icon(r[0])}</span>${r[1]}</div>`).join("");
 
 /* ================= schedule ================= */
-function renderSched(){const X=D();const rc=X.EV.filter(e=>e.rem).flatMap(e=>e.rem.filter(r=>r[0]!=="none").map(r=>[fmt(e.s),r]));
- let h=`<div class="remkey"><span class="k">TA reminders today</span>${rc.map(([t,r])=>`<span class="rem ${r[0]}" style="animation:none"><b class="tnum">${t}</b>${icon(r[0]==="charge"?"battery":"rows")}${r[1]}</span>`).join("")||`<span class="rem none">None</span>`}</div>`;
+const dur=m=>m>=60?Math.floor(m/60)+"h"+(m%60?" "+m%60+"m":""):m+"m";
+let schIO=null;
+function renderSched(){const X=D(),sl=document.getElementById("schedule");
+ const rc=X.EV.filter(e=>e.rem).flatMap(e=>e.rem.filter(r=>r[0]!=="none").map(r=>[fmt(e.s),r]));
+ const maxD=Math.max(...X.EV.map(e=>e.e-e.s)),keys=X.EV.filter(e=>e.key).length;
+ document.getElementById("schedhead").innerHTML=
+  `<div class="stats"><span>${icon("rows")}${X.EV.length} stops</span><span>${icon("bolt")}${keys} key moments</span><span class="tnum">${icon("clock")}${fmt(X.T0)} to ${fmt(X.T1)}</span></div>`+
+  `<div class="ribbon">${X.PH.map(p=>`<button data-p="${p.id}" style="--c:${p.c};--f:${p.e-p.s}" title="${p.n} · from ${fmt(p.s)}" aria-label="Jump to ${p.n}">${icon(p.ic)}<span>${p.n}</span></button>`).join("")}<span class="needle" id="needle"></span></div>`+
+  `<div class="remkey"><span class="k">TA reminders today</span>${rc.map(([t,r])=>`<span class="rem ${r[0]}" style="animation:none"><b class="tnum">${t}</b>${icon(r[0]==="charge"?"battery":"rows")}${r[1]}</span>`).join("")||`<span class="rem none">None</span>`}</div>`;
+ let h="";
  X.PH.forEach(p=>{const evs=X.EV.filter(e=>e.p===p.id);if(!evs.length)return;
-  h+=`<div class="sgroup" style="--c:${p.c}"><span class="ic">${icon(p.ic)}</span>${p.n}<small class="tnum">from ${fmt(evs[0].s)}</small></div>`;
-  evs.forEach(e=>{const end=e.after?"":(e.e>e.s?"to "+fmt(e.e):"");
-   h+=`<div class="row ${e.key?"key":""} ${e.rem?"hasrem":""}" style="--c:${p.c}"><div class="t tnum">${e.after?"After":fmt(e.s)}<small>${e.after?"send-off":end}</small></div><span class="ic">${icon(e.ic)}</span><div><h3>${e.n}<span class="rm">${icon("pin")}${e.w}</span>${e.key?`<span class="keytag">${icon("bolt")}Key</span>`:""}</h3><div class="task">${e.do}</div>${remHTML(e)}${splitHTML(e)}${subHTML(e,p.c)}</div></div>`})});
- document.getElementById("sched").innerHTML=h}
+  h+=`<span class="anchor" id="pa${p.id}"></span><div class="ph" style="--c:${p.c}"><span class="ic">${icon(p.ic)}</span>${p.n}<small class="tnum">${fmt(evs[0].s)} · ${evs.length} ${evs.length>1?"stops":"stop"}</small></div>`;
+  evs.forEach((e,i)=>{
+   if(i&&e.s-evs[i-1].e>=5)h+=`<div class="gap">${icon("clock")}${dur(e.s-evs[i-1].e)} break</div>`;
+   h+=`<div class="ev ${e.key?"key":""}" data-s="${e.s}" data-e="${e.e}" style="--c:${p.c}"><span class="node"></span>`+
+    `<div class="when tnum">${e.after?"After":fmt(e.s)}<small>${e.after?"send-off":(e.e>e.s?"to "+fmt(e.e):"")}</small>${e.after?"":`<span class="dur">${dur(e.e-e.s)}</span>`}</div>`+
+    `<div class="evc"><span class="ic">${icon(e.ic)}</span><div style="flex:1;min-width:0"><h3>${e.n}${e.key?`<span class="keytag">${icon("bolt")}Key</span>`:""}</h3><span class="rm">${icon("pin")}${e.w}</span><div class="task">${e.do}</div>${remHTML(e)}${splitHTML(e)}${subHTML(e,p.c)}<div class="durbar" style="--d:${((e.e-e.s)/maxD).toFixed(3)}"></div></div></div></div>`})});
+ const tl=document.getElementById("sched");tl.innerHTML=h;
+ document.querySelectorAll("#schedhead .ribbon button").forEach(b=>b.addEventListener("click",()=>{const a=document.getElementById("pa"+b.dataset.p);
+  sl.scrollTo({top:sl.scrollTop+a.getBoundingClientRect().top-sl.getBoundingClientRect().top-4,behavior:"smooth"})}));
+ const evs=tl.querySelectorAll(".ev");if(schIO)schIO.disconnect();
+ if("IntersectionObserver" in window){schIO=new IntersectionObserver(es=>{let k=0;es.forEach(x=>{if(x.isIntersecting){x.target.style.transitionDelay=(k++*70)+"ms";x.target.classList.add("in");schIO.unobserve(x.target)}})},{root:sl,rootMargin:"0px 0px -5% 0px"});evs.forEach(x=>schIO.observe(x))}
+ else evs.forEach(x=>x.classList.add("in"));
+ markNow()}
+function markNow(){const X=D(),on=live&&zoeDay()===day,m=nowMin();
+ document.querySelectorAll("#sched .ev").forEach(el=>{const s=+el.dataset.s,e=+el.dataset.e;el.classList.toggle("past",on&&e<=m);el.classList.toggle("now",on&&s<=m&&m<e)});
+ const nd=document.getElementById("needle");if(nd){const f=(m-X.T0)/(X.T1-X.T0);nd.classList.toggle("on",on&&f>=0&&f<=1);nd.style.left=`calc(5px + (100% - 10px) * ${Math.min(1,Math.max(0,f))})`}}
 
 /* ================= dial ================= */
 const A0=-80,SW=340,C=250;
@@ -895,8 +950,8 @@ function renderLive(){const X=D(),m=nowMin();
 simEl.addEventListener("input",()=>{sim=+simEl.value;renderLive()});
 const gl=document.getElementById("golive");
 if(!zoeDay()){gl.disabled=true;gl.title="Turns on during Zoe, Dec 1 to 4, 2026"}
-gl.addEventListener("click",()=>{live=!live;if(live&&zoeDay())setDay(zoeDay());renderLive()});
-setInterval(()=>{if(live)renderLive()},30000);
+gl.addEventListener("click",()=>{live=!live;if(live&&zoeDay())setDay(zoeDay());renderLive();markNow()});
+setInterval(()=>{if(live){renderLive();markNow()}},30000);
 
 /* ================= map ================= */
 let step=0;
@@ -1000,7 +1055,7 @@ function go(id){const i=slides.findIndex(s=>s.id===id);if(i<0)return;
  document.getElementById("prev").disabled=i===0;document.getElementById("next").disabled=i===slides.length-1;
  daysEl.classList.toggle("off",!slides[i].dataset.day);
  if(location.hash.slice(1)!==id){try{history.replaceState(null,"","#"+id)}catch(e){}}
- slides[i].scrollTop=0;if(id!=="clock")stopPlay();if(id!=="moments")stopFlow()}
+ slides[i].scrollTop=0;if(id==="schedule")renderSched();if(id!=="clock")stopPlay();if(id!=="moments")stopFlow()}
 document.getElementById("prev").addEventListener("click",()=>cur>0&&go(slides[cur-1].id));
 document.getElementById("next").addEventListener("click",()=>cur<slides.length-1&&go(slides[cur+1].id));
 document.addEventListener("keydown",e=>{if(e.target.tagName==="INPUT")return;
