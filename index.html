@@ -411,6 +411,28 @@ h2{background:linear-gradient(90deg,#fff 30%,#ffd1b0);-webkit-background-clip:te
 @media (max-width:980px){.invstats{grid-template-columns:1fr 1fr}.users{grid-template-columns:1fr}}
 @media (max-width:560px){.istat{padding:10px;gap:9px}.istat .ic{width:40px;height:40px;font-size:21px}.istat b{font-size:24px}.istat span{font-size:12.5px}}
 
+/* team notes + who */
+.notes{display:grid;grid-template-columns:.8fr 1.3fr 1fr;gap:10px;align-items:start}
+.ncard{border-top:4px solid var(--c)}
+.nstats{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.nstats div{background:var(--panel-2);border-radius:14px;padding:12px;text-align:center}
+.nstats b{display:block;font-family:var(--display);font-size:38px;line-height:1;color:var(--c)}
+.nstats span{font-size:13.5px;font-weight:700;color:var(--muted)}
+.nlist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:7px}
+.nlist li{display:flex;gap:10px;align-items:flex-start;font-size:14.5px;line-height:1.3}
+.nlist li>svg{color:var(--c);margin-top:3px;font-size:17px}
+.nlist b{display:block;font-size:15px}
+.nlist span{color:var(--muted)}.nlist span b{color:var(--text)}
+.who{margin-top:10px;padding:10px 12px;border-radius:14px;background:color-mix(in srgb,var(--gold) 9%,var(--panel-2));border:1px dashed color-mix(in srgb,var(--gold) 50%,var(--line))}
+.who .k{margin-bottom:6px;color:var(--gold)}
+.wrow{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px;font-size:14.5px;padding:3px 0}
+.wrow svg{color:var(--gold);align-self:center}
+.wrow span{color:var(--muted)}
+.enote{display:flex;gap:8px;align-items:flex-start;margin-top:8px;font-size:14px;color:#ffe3c8;background:#4a2a14;border-radius:12px;padding:8px 10px}
+.enote svg{color:var(--gold);margin-top:2px;flex:none}
+@media (max-width:980px){.notes{grid-template-columns:1fr}}
+@media (max-width:560px){.evc .who,.evc .enote{margin-left:-54px}.ev.key .evc .who,.ev.key .evc .enote{margin-left:-66px}}
+
 /* scripts inside schedule */
 .scrs{display:flex;flex-direction:column;gap:6px;margin-top:10px}
 .scr{border:1px solid color-mix(in srgb,var(--c) 45%,var(--line));border-radius:14px;background:color-mix(in srgb,var(--c) 9%,var(--panel-2))}
@@ -511,6 +533,8 @@ h2{background:linear-gradient(90deg,#fff 30%,#ffd1b0);-webkit-background-clip:te
   <!-- TEAM BASICS -->
   <section class="slide" id="team" aria-label="Team basics" data-ic="team2">
     <div class="inner">
+      <div><div class="eyebrow">From the team meeting</div><h2>Team notes</h2></div>
+      <div class="notes" id="tnotes"></div>
       <div><div class="eyebrow">Why we serve</div><h2>Goals for every candidate</h2></div>
       <div class="journey" id="journey"></div>
       <div><div class="eyebrow">Who's on the team</div><h2 style="font-size:28px">Tap a role to flip it</h2></div>
@@ -748,7 +772,7 @@ const DAYS={
   {s:960,e:1110,p:2,ic:"map",n:"Room visit assignment",w:"Chateau",do:"Know which candidate rooms you visit"},
   {s:1110,e:1185,p:3,ic:"people",n:"Candidates arrive",w:"3rd floor elevator",key:1,do:"Greet · carry bags · escort to rooms",scr:[0]},
   {s:1185,e:1215,p:3,ic:"bell",n:"Room visits 1 + 2",w:"Candidate rooms",do:"Visit 1: bring valuables + Bible · Visit 2: escort down",scr:[1,2]},
-  {s:1215,e:1395,p:4,ic:"star",n:"Welcoming Party + first night",w:"Party room → Lecture Room",key:1,do:"Fellowship, then to the Lecture Room",split:{th:"Hold up your table sign",ta:"Hand out receivers · escort candidates in"},scr:[3],steps:[["star","Welcoming Party","Fellowship with your candidates · eat + drink modestly · no traffic, weather or politics talk"],["flag","Orientation","TH lifts the table sign in the Lecture Room · TA escorts candidates in"],["hand","Team bow","Stand, wave, bow"],["watch","Collect watches","Valuables in named envelopes: full name + table letter"],["music","Praise","Worship with your table"],["book","Spider Story","Listen together"],["book","Lecture 1 · Who Am I?","Take notes"],["ban","Absolute silence","Gestures only from here to bedtime"]]},
+  {s:1215,e:1395,p:4,ic:"star",n:"Welcoming Party + first night",w:"Party room → Lecture Room",key:1,do:"Fellowship, then to the Lecture Room",split:{th:"Hold up your table sign",ta:"Hand out receivers · escort candidates in"},scr:[3],steps:[["star","Welcoming Party","Fellowship with your candidates · eat + drink modestly · no traffic, weather or politics talk"],["flag","Orientation","TH lifts the table sign in the Lecture Room · TA escorts candidates in"],["hand","Team bow","Stand, wave, bow"],["watch","Collect watches","Valuables in named envelopes: full name + table letter"],["music","Praise","Worship with your table"],["book","Spider Story","Listen together"],["book","Lecture 1 · Who Am I?","Take notes"],["ban","Absolute silence","Gestures only from here to bedtime"]],who:[["receiver","Yuwei + 1","Hand out translation receivers at the party"]]},
   {s:1395,e:1410,p:4,ic:"watch",n:"Collect valuables in rooms",w:"Candidate rooms",do:"Poster sign · no knocking · then bedtime"},
   {s:1410,e:1440,p:5,ic:"people",n:"Team meeting",w:"Downstairs",do:"Then set up receivers for Morning Prayer · bed"}
  ]},
@@ -757,7 +781,7 @@ const DAYS={
  EV:[
   {s:330,e:360,p:1,ic:"sun",n:"Team wake-up",w:"Team rooms",do:"Time confirmed the night before"},
   {s:360,e:390,p:1,ic:"people",n:"Team meeting",w:"Meeting room",do:"Be on time · Aux wakes candidates at 6am"},
-  {s:390,e:420,p:1,ic:"pray",n:"Morning Prayer",w:"Morning Prayer Room",key:1,do:"Silent until the Director lifts it",split:{th:"Bring candidates down with the sign",ta:"Hand out receivers at the door"}},
+  {s:390,e:420,p:1,ic:"pray",n:"Morning Prayer",w:"Morning Prayer Room",key:1,do:"Silent until the Director lifts it",split:{th:"Bring candidates down with the sign",ta:"Hand out receivers at the door"},who:[["receiver","Yuwei + 1","Hand out translation receivers to non-English speakers"]]},
   {s:450,e:490,p:1,ic:"plate",n:"Breakfast",w:"Dining Room",do:"Stand at your table with the sign · introductions"},
   {s:495,e:525,p:1,ic:"music",n:"Praise & Worship",w:"Lecture Room",do:"Get to the Lecture Room before candidates · hold up your table sign"},
   {s:525,e:600,p:1,ic:"book",n:"Lecture 2 · Essence of Man",w:"Lecture Room",do:"Take notes · no heads down"},
@@ -802,7 +826,7 @@ const DAYS={
   {s:915,e:930,p:2,ic:"cup",n:"Soda break",w:"Lecture Room",key:1,do:"Move tables while candidates take a break",split:{th:"Go relocate tables",ta:"Stay with candidates"}},
   {s:930,e:950,p:3,ic:"music",n:"Praise & Worship",w:"Lecture Room",do:"Worship with your table"},
   {s:950,e:1040,p:3,ic:"chalice",n:"Lecture 8 · Sacraments",w:"Lecture Room",do:"Know who needs baptism"},
-  {s:1045,e:1100,p:3,ic:"pool",n:"Baptismal Ceremony",w:"Pool",key:1,do:"Go with your table",split:{th:"2 women + 2 men TH help in changing rooms",ta:"Collect receivers in sandwich bags"}},
+  {s:1045,e:1100,p:3,ic:"pool",n:"Baptismal Ceremony",w:"Pool",key:1,do:"Go with your table",split:{th:"2 women + 2 men TH help in changing rooms",ta:"Collect receivers in sandwich bags"},who:[["pool","Charles · Julie & Soohyun","Baptisms"],["receiver","Nancy & Esther","Collect English candidates' receivers · non-English candidates bring theirs to the ceremony"],["eye","Pin","Collect glasses"],["shower","Jackie","Shower caps"]],note:"Baptism: must come on LD and be committed to a serious faith life · gently explain to anyone who wants the Holy Spirit but not baptism"},
   {s:1105,e:1170,p:3,ic:"candle",n:"Korean Food Party",w:"Dining Room",do:"Light the candle · receivers on"},
   {s:1170,e:1200,p:4,ic:"music",n:"Praise & Worship",w:"Lecture Room",do:"Get to the Lecture Room before candidates · hold up your table sign"},
   {s:1200,e:1245,p:4,ic:"mic",n:"Testimony #4",w:"Lecture Room",do:"Listen and set the example"},
@@ -899,7 +923,7 @@ const FLOWS={
     {n:"Chapel Visit #1",tm:"10:45pm",c:5,ic:"pray",cols:[{b:["map","Go to your assigned room"]},{b:["clock","Timer from Chief: 25 min"]},{b:["music","Circle up · theme song"]},{b:["pray","Prayer requests, 3 min each"]},{b:["heart","Pray for Zoe + Pastor Kang"]},{b:["sweat","Sweatshirts on tomorrow"]}],
      watch:[["ban","Never force loud prayer"],["coffee","Snacks after, not during"],["eye","What's shared stays private"]]}],
  3:[{n:"Baptism",tm:"5:25pm",c:3,ic:"pool",cols:[{b:["eye","Know who is getting baptized"]},{b:["receiver","Candidates bring receivers"]},{th:["shower","2 women + 2 men TH in changing rooms"],ta:["basket","Receivers + glasses in sandwich bags"]},{b:["book","Bilingual hymnal at pool entrance"]},{b:["receiver","Receivers back after changing"]},{b:["box","Wet robes in the trash bag"]}],
-     watch:[["shower","Shower caps for those who need them"],["sweat","Women: navy T-shirt under robe"],["people","Undecided? Tell the Team Leader"]]},
+     watch:[["shower","Jackie brings shower caps · Pin collects glasses"],["sweat","Women: navy T-shirt under robe"],["church","Must come on LD + commit to a serious faith life"],["people","Undecided? Tell the Team Leader"]]},
     {n:"Holy Spirit",tm:"11pm",c:4,ic:"flame",cols:[{b:["eye","Know who needs Holy Spirit"]},{b:["mega","Pastor invites to the front"]},{b:["hand","Encourage the undecided"]},{b:["pray","All TH + TA pray at the front"]},{b:["shield","Casting out: never push"]}],
      watch:[["people","Undecided? Tell the Team Leader"],["speech","Assigned TH translates"],["ban","Go only if they choose to"]]},
     {n:"Chapel Visit #2",tm:"11:15pm",c:5,ic:"pray",cols:[{b:["form","Timer + testimony forms from Chief"]},{b:["mic","Each shares, 3 min"]},{b:["pray","TH closes in prayer"]},{b:["form","Hand out testimony forms"]},{b:["star","Grade A/B/C · only A+ shares"]},{b:["speech","Tell tomorrow's speaker tonight"]}],
@@ -931,6 +955,7 @@ const splitHTML=e=>e.split?`<div class="split"><div><b>TH</b>${e.split.th}</div>
 const subHTML=(e,c)=>e.sub?`<div class="subs" style="--c:${c}">${e.sub.map((x,i)=>`${i?"<i>›</i>":""}<span>${icon(x[0])}${x[1]}</span>`).join("")}</div>`:"";
 
 const chatHTML=c=>c.map((m,i)=>`<div class="bub ${m[0]}" style="animation-delay:${i*.08}s"><span class="av">${icon(m[0]==="you"?"team2":m[0]==="them"?"people":"eye")}</span><p>${m[1]}</p></div>`).join("");
+const whoHTML=e=>(e.who?`<div class="who"><div class="k">Who's on it</div>${e.who.map(w=>`<div class="wrow">${icon(w[0])}<b>${w[1]}</b><span>${w[2]}</span></div>`).join("")}</div>`:"")+(e.note?`<div class="enote">${icon("bell")}<span>${e.note}</span></div>`:"");
 const stepsHTML=(e,c)=>e.steps?`<div class="steplist" style="--c:${c}"><div class="k">Order of the night</div><ol>${e.steps.map(x=>`<li><span class="si">${icon(x[0])}</span><span><b>${x[1]}</b><small>${x[2]}</small></span></li>`).join("")}</ol></div>`:"";
 const scrHTML=e=>e.scr?`<div class="scrs">${e.scr.map(i=>{const S=SCRIPTS[i];return `<details class="scr" style="--c:${COL[S.c]}"><summary>${icon("speech")}<span>${S.n} script</span><small>${S.where.split(" · ").pop()}</small>${icon("right","i chev")}</summary><div class="chat">${chatHTML(S.chat)}</div><button class="pbtn" data-goscr="${i}">${icon("speech")}Open in Scripts</button></details>`}).join("")}</div>`:"";
 document.addEventListener("click",ev=>{const b=ev.target.closest("[data-goscr]");if(b){si=+b.dataset.goscr;renderScripts();go("scripts")}});
@@ -966,6 +991,13 @@ document.querySelectorAll("#mlinks button").forEach(b=>b.addEventListener("click
  requestAnimationFrame(tick)})();
 
 /* ================= team basics ================= */
+document.getElementById("tnotes").innerHTML=`
+ <div class="card ncard" style="--c:${COL[2]}"><div class="invhead"><span class="ic">${icon("people")}</span><div><b>Headcount</b><small>Zoe 48 so far</small></div></div>
+  <div class="nstats"><div><b class="tnum">70</b><span>EM candidates</span></div><div><b class="tnum">47</b><span>Team members</span></div></div></div>
+ <div class="card ncard" style="--c:${COL[1]}"><div class="invhead"><span class="ic">${icon("team2")}</span><div><b>Who's doing what</b></div></div><ul class="nlist">
+  ${[["wrench","Esther & Ben","Tech team"],["receiver","Matthew","Moving to KM TH · still helps with receivers"],["mega","Paul Kim & Carrie","Speakers for the 3rd floor"],["receiver","Yuwei + 1","Receivers at the Welcoming Party (Day 1) + Morning Prayer for non-English speakers (Day 2)"],["pool","Baptism crew","Charles · Julie & Soohyun · Nancy & Esther on receivers · Pin on glasses · Jackie on shower caps"]].map(x=>`<li>${icon(x[0])}<span><b>${x[1]}</b>${x[2]}</span></li>`).join("")}</ul></div>
+ <div class="card ncard" style="--c:${COL[3]}"><div class="invhead"><span class="ic">${icon("bell")}</span><div><b>Reminders</b></div></div><ul class="nlist">
+  ${[["pencil","Sign your prayer logs",""],["pool","Baptism","Must come on LD and be committed to a serious faith life"],["flame","Holy Spirit but not baptism?","Try to explain to those who want the Holy Spirit but not baptism"]].map(x=>`<li>${icon(x[0])}<span><b>${x[1]}</b>${x[2]}</span></li>`).join("")}</ul></div>`;
 const GOALS=[["heart","Experience life in Jesus",1],["sun","Become spiritually restored",2],["book","Understand the truth",3],["flame","Receive baptism + Holy Spirit",4],["send","Become a disciple + witness",5]];
 document.getElementById("journey").innerHTML=GOALS.map((g,i)=>`<div class="jstep" style="--c:${COL[g[2]]};--c2:${COL[g[2]+1]||COL[5]}"><span class="ic">${icon(g[0])}</span><b>${g[1]}</b></div>`).join("");
 const ROLES=[
@@ -1021,13 +1053,13 @@ renderInv();
 document.getElementById("invreset").addEventListener("click",()=>{invDone.clear();try{localStorage.removeItem("zoe48inv")}catch(e){}renderInv()});
 const USERS=[
  {n:"Zoe 47",sub:"Actual users last year",c:3,cand:[["English",74],["Romanian",6],["Spanish",7],["Chinese",0]],team:54},
- {n:"Zoe 48",sub:"Estimated headcount by 11/13",c:4,cand:[["English",null],["Polish",null],["Czech",null],["Spanish",null],["Chinese",null]],team:47}
+ {n:"Zoe 48",sub:"Estimated headcount by 11/13",c:4,cand:[["English",70],["Polish",null],["Czech",null],["Spanish",null],["Chinese",null]],team:47}
 ];
 document.getElementById("users").innerHTML=USERS.map(u=>{const ct=u.cand.reduce((a,x)=>a+(x[1]||0),0),all=ct+u.team,mx=Math.max(1,...u.cand.map(x=>x[1]||0),u.team);
  return `<div class="card ucard" style="--c:${COL[u.c]}"><div class="invhead"><span class="ic">${icon("people")}</span><div><b>${u.n}</b><small>${u.sub}</small></div><span class="invtot tnum">${all}</span></div>
  <div class="k" style="margin:4px 0 6px">Candidates · ${ct||"not in yet"}</div>${u.cand.map(x=>`<div class="ubar"><span>${x[0]}</span><div class="track"><i style="width:${(x[1]||0)/mx*100}%"></i></div><b class="tnum">${x[1]??"–"}</b></div>`).join("")}
  <div class="k" style="margin:10px 0 6px">Team members</div><div class="ubar"><span>English</span><div class="track"><i style="width:${u.team/mx*100}%;background:var(--gold)"></i></div><b class="tnum">${u.team}</b></div>
- <div class="ufoot">${u.n==="Zoe 47"?`${icon("check")}159 receivers this year covers last year's ${all} users`:`${icon("clock")}Candidate languages still to be filled in`}</div></div>`}).join("");
+ <div class="ufoot">${u.n==="Zoe 47"?`${icon("check")}159 receivers this year covers last year's ${all} users`:`${icon("clock")}70 EM candidates so far · other languages still to be filled in`}</div></div>`}).join("");
 const REH=[["church","After KM service"],["car","Drive to the Chateau"],["plate","Dinner + service"],["booth","Booth, tables, monitors"],["receiver","Check + label receivers"],["battery","Batteries into cases"],["star","Welcoming Party table"],["rows","Round tables + chairs"]];
 document.getElementById("rehflow").innerHTML=REH.map((r,i)=>`${i?`<div class="arrowcol">${icon("right")}</div>`:""}<div class="fstep" style="--c:${COL[(i%5)+1]}"><span class="num">${i+1}</span><span class="ic">${icon(r[0])}</span>${r[1]}</div>`).join("");
 
@@ -1048,7 +1080,7 @@ function renderSched(){const X=D(),sl=document.getElementById("schedule");
    if(i&&e.s-evs[i-1].e>=5)h+=`<div class="gap">${icon("clock")}${dur(e.s-evs[i-1].e)} break</div>`;
    h+=`<div class="ev ${e.key?"key":""}" data-s="${e.s}" data-e="${e.e}" style="--c:${p.c}"><span class="node"></span>`+
     `<div class="when tnum">${e.after?"After":fmt(e.s)}<small>${e.after?"send-off":(e.e>e.s?"to "+fmt(e.e):"")}</small>${e.after?"":`<span class="dur">${dur(e.e-e.s)}</span>`}</div>`+
-    `<div class="evc"><span class="ic">${icon(e.ic)}</span><div style="flex:1;min-width:0"><h3>${e.n}${e.key?`<span class="keytag">${icon("bolt")}Key</span>`:""}</h3><span class="rm">${icon("pin")}${e.w}</span><div class="task">${e.do}</div>${remHTML(e)}${splitHTML(e)}${subHTML(e,p.c)}${stepsHTML(e,p.c)}${scrHTML(e)}<div class="durbar" style="--d:${((e.e-e.s)/maxD).toFixed(3)}"></div></div></div></div>`})});
+    `<div class="evc"><span class="ic">${icon(e.ic)}</span><div style="flex:1;min-width:0"><h3>${e.n}${e.key?`<span class="keytag">${icon("bolt")}Key</span>`:""}</h3><span class="rm">${icon("pin")}${e.w}</span><div class="task">${e.do}</div>${remHTML(e)}${splitHTML(e)}${subHTML(e,p.c)}${whoHTML(e)}${stepsHTML(e,p.c)}${scrHTML(e)}<div class="durbar" style="--d:${((e.e-e.s)/maxD).toFixed(3)}"></div></div></div></div>`})});
  const tl=document.getElementById("sched");tl.innerHTML=h;
  document.querySelectorAll("#schedhead .ribbon button").forEach(b=>b.addEventListener("click",()=>{const a=document.getElementById("pa"+b.dataset.p);
   sl.scrollTo({top:sl.scrollTop+a.getBoundingClientRect().top-sl.getBoundingClientRect().top-4,behavior:"smooth"})}));
@@ -1110,7 +1142,7 @@ function renderLive(){const X=D(),m=nowMin();
   nc.style.setProperty("--c",p.c);
   nc.innerHTML=`<span class="eyebrow" style="color:${p.c}">Now · ${p.n}</span><div class="ring"><svg viewBox="0 0 260 260"><circle cx="130" cy="130" r="${R}" fill="none" stroke="#3a241b" stroke-width="12"/><circle cx="130" cy="130" r="${R}" fill="none" stroke="${p.c}" stroke-width="12" stroke-linecap="round" stroke-dasharray="${L}" stroke-dashoffset="${L*(1-pct)}" style="transition:stroke-dashoffset .6s"/></svg><div class="pulse"></div><div class="ic">${icon(cur.ic)}</div></div>
    <h3>${cur.n}</h3>${cur.after?"":`<div class="leftmin tnum"><b>${left}</b> min left</div>`}
-   <div class="taskcard" style="--c:${p.c};width:100%;text-align:left"><span class="avatar">${icon("team2")}</span><div style="display:flex;flex-direction:column;gap:4px;flex:1"><span class="who">Table Team</span><span class="do">${cur.do}</span>${splitHTML(cur)}${stepsHTML(cur,p.c)}<span class="rm">${icon("pin")}${cur.w}</span>${scrHTML(cur)}</div></div>`}
+   <div class="taskcard" style="--c:${p.c};width:100%;text-align:left"><span class="avatar">${icon("team2")}</span><div style="display:flex;flex-direction:column;gap:4px;flex:1"><span class="who">Table Team</span><span class="do">${cur.do}</span>${splitHTML(cur)}${whoHTML(cur)}${stepsHTML(cur,p.c)}<span class="rm">${icon("pin")}${cur.w}</span>${scrHTML(cur)}</div></div>`}
  document.getElementById("nextcol").innerHTML=`<span class="eyebrow">Up next</span>`+(nxt.length?nxt.map(e=>{const p=ph(e.p);return `<div class="nextcard" style="--c:${p.c}"><span class="ic">${icon(e.ic)}</span><div><b>${e.n}</b><div class="rm">${icon("pin")}${e.w}</div><div style="font-size:15px;margin-top:4px">${e.do}</div></div><div class="cd tnum">${Math.max(0,e.s-m)}<small>min</small></div></div>`}).join(""):`<div class="nextcard" style="--c:var(--p5)"><span class="ic">${icon("check")}</span><b>${X.name} complete. Well done!</b></div>`);
  const pill=document.getElementById("modepill");pill.className="pill "+(live?"lv":"pr");pill.textContent=live?"Live":"Preview";
  simEl.disabled=live}
