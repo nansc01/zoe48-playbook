@@ -368,6 +368,22 @@ h2{background:linear-gradient(90deg,#fff 30%,#c9d6f2);-webkit-background-clip:te
 .herologo{display:block;width:min(420px,88%);height:auto;margin-bottom:10px;filter:drop-shadow(0 0 22px rgba(127,224,255,.3))}
 @media (max-width:560px){.brand svg.logo{height:46px;width:auto;flex:none;filter:drop-shadow(0 0 12px rgba(127,224,255,.25))}.brand .num{font-size:18px}.brand .bt{font-size:14px}}
 
+/* scripts inside schedule */
+.scrs{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+.scr{border:1px solid color-mix(in srgb,var(--c) 45%,var(--line));border-radius:14px;background:color-mix(in srgb,var(--c) 9%,var(--panel-2))}
+.scr summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:8px;padding:9px 12px;font-weight:700;color:var(--c)}
+.scr summary::-webkit-details-marker{display:none}
+.scr summary small{color:var(--muted);font-weight:600;font-size:12px}
+.scr summary .chev{margin-left:auto;transition:transform .2s}
+.scr[open] summary .chev{transform:rotate(90deg)}
+.scr[open] summary{border-bottom:1px dashed var(--line)}
+.scr .chat{padding:10px 12px;max-width:none;gap:8px}
+.scr .bub p{font-size:15px;padding:9px 13px}
+.scr .bub .av{width:32px;height:32px;font-size:16px}
+.scr .pbtn{margin:0 12px 12px;font-size:14px;padding:6px 11px}
+.ringcard .scrs{text-align:left}
+@media (max-width:560px){.evc .scrs{margin-left:-54px}.ev.key .evc .scrs{margin-left:-66px}.scr .chat{padding:8px}.scr .bub p{font-size:14.5px}}
+
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 @media (max-width:980px){
   .hero,.dialwrap,.live,.mapgrid,.after2{grid-template-columns:1fr}
@@ -675,8 +691,8 @@ const DAYS={
   {s:540,e:720,p:1,ic:"car",n:"Depart from church",w:"Church",do:"Car assignment · brunch on the way"},
   {s:720,e:960,p:2,ic:"suitcase",n:"Arrive + set up",w:"Chateau",do:"Arrive by 12pm",sub:[["suitcase","Unpack"],["church","Team service"],["booth","Final set-up"],["plate","Late lunch"],["suit","Suit on"],["camera","Photo with KM TH"]]},
   {s:960,e:1110,p:2,ic:"map",n:"Room visit assignment",w:"Chateau",do:"Know which candidate rooms you visit"},
-  {s:1110,e:1185,p:3,ic:"people",n:"Candidates arrive",w:"3rd floor elevator",key:1,do:"Greet · carry bags · escort to rooms"},
-  {s:1185,e:1215,p:3,ic:"bell",n:"Room visits 1 + 2",w:"Candidate rooms",do:"Visit 1: bring valuables + Bible · Visit 2: escort down"},
+  {s:1110,e:1185,p:3,ic:"people",n:"Candidates arrive",w:"3rd floor elevator",key:1,do:"Greet · carry bags · escort to rooms",scr:[0]},
+  {s:1185,e:1215,p:3,ic:"bell",n:"Room visits 1 + 2",w:"Candidate rooms",do:"Visit 1: bring valuables + Bible · Visit 2: escort down",scr:[1,2]},
   {s:1215,e:1395,p:4,ic:"star",n:"Welcoming Party + first night",w:"Party room → Lecture Room",key:1,do:"Fellowship, then to the Lecture Room",split:{th:"Hold up your table sign",ta:"Hand out receivers · escort candidates in"},sub:[["star","Party"],["flag","Orientation"],["watch","Collect watches"],["music","Praise"],["book","Spider Story"],["book","Lecture 1 · Who Am I?"],["ban","Absolute silence"]]},
   {s:1395,e:1410,p:4,ic:"watch",n:"Collect valuables in rooms",w:"Candidate rooms",do:"Poster sign · no knocking · then bedtime"},
   {s:1410,e:1440,p:5,ic:"people",n:"Team meeting",w:"Downstairs",do:"Then set up receivers for Morning Prayer · bed"}
@@ -860,6 +876,10 @@ const span=e=>e.after?"After send-off":(e.e>e.s?fmt(e.s)+" to "+fmt(e.e):fmt(e.s
 const splitHTML=e=>e.split?`<div class="split"><div><b>TH</b>${e.split.th}</div><div><b>TA</b>${e.split.ta}</div></div>`:"";
 const subHTML=(e,c)=>e.sub?`<div class="subs" style="--c:${c}">${e.sub.map((x,i)=>`${i?"<i>›</i>":""}<span>${icon(x[0])}${x[1]}</span>`).join("")}</div>`:"";
 
+const chatHTML=c=>c.map((m,i)=>`<div class="bub ${m[0]}" style="animation-delay:${i*.08}s"><span class="av">${icon(m[0]==="you"?"team2":m[0]==="them"?"people":"eye")}</span><p>${m[1]}</p></div>`).join("");
+const scrHTML=e=>e.scr?`<div class="scrs">${e.scr.map(i=>{const S=SCRIPTS[i];return `<details class="scr" style="--c:${COL[S.c]}"><summary>${icon("speech")}<span>${S.n} script</span><small>${S.where.split(" · ").pop()}</small>${icon("right","i chev")}</summary><div class="chat">${chatHTML(S.chat)}</div><button class="pbtn" data-goscr="${i}">${icon("speech")}Open in Scripts</button></details>`}).join("")}</div>`:"";
+document.addEventListener("click",ev=>{const b=ev.target.closest("[data-goscr]");if(b){si=+b.dataset.goscr;renderScripts();go("scripts")}});
+
 /* day switcher */
 const daysEl=document.getElementById("days");
 daysEl.innerHTML=[1,2,3,4].map(d=>`<button data-d="${d}" aria-pressed="${d===day}">${DAYS[d].name}<small>${DAYS[d].wd} · Dec ${d}</small></button>`).join("");
@@ -940,7 +960,7 @@ function renderSched(){const X=D(),sl=document.getElementById("schedule");
    if(i&&e.s-evs[i-1].e>=5)h+=`<div class="gap">${icon("clock")}${dur(e.s-evs[i-1].e)} break</div>`;
    h+=`<div class="ev ${e.key?"key":""}" data-s="${e.s}" data-e="${e.e}" style="--c:${p.c}"><span class="node"></span>`+
     `<div class="when tnum">${e.after?"After":fmt(e.s)}<small>${e.after?"send-off":(e.e>e.s?"to "+fmt(e.e):"")}</small>${e.after?"":`<span class="dur">${dur(e.e-e.s)}</span>`}</div>`+
-    `<div class="evc"><span class="ic">${icon(e.ic)}</span><div style="flex:1;min-width:0"><h3>${e.n}${e.key?`<span class="keytag">${icon("bolt")}Key</span>`:""}</h3><span class="rm">${icon("pin")}${e.w}</span><div class="task">${e.do}</div>${remHTML(e)}${splitHTML(e)}${subHTML(e,p.c)}<div class="durbar" style="--d:${((e.e-e.s)/maxD).toFixed(3)}"></div></div></div></div>`})});
+    `<div class="evc"><span class="ic">${icon(e.ic)}</span><div style="flex:1;min-width:0"><h3>${e.n}${e.key?`<span class="keytag">${icon("bolt")}Key</span>`:""}</h3><span class="rm">${icon("pin")}${e.w}</span><div class="task">${e.do}</div>${remHTML(e)}${splitHTML(e)}${subHTML(e,p.c)}${scrHTML(e)}<div class="durbar" style="--d:${((e.e-e.s)/maxD).toFixed(3)}"></div></div></div></div>`})});
  const tl=document.getElementById("sched");tl.innerHTML=h;
  document.querySelectorAll("#schedhead .ribbon button").forEach(b=>b.addEventListener("click",()=>{const a=document.getElementById("pa"+b.dataset.p);
   sl.scrollTo({top:sl.scrollTop+a.getBoundingClientRect().top-sl.getBoundingClientRect().top-4,behavior:"smooth"})}));
@@ -1002,7 +1022,7 @@ function renderLive(){const X=D(),m=nowMin();
   nc.style.setProperty("--c",p.c);
   nc.innerHTML=`<span class="eyebrow" style="color:${p.c}">Now · ${p.n}</span><div class="ring"><svg viewBox="0 0 260 260"><circle cx="130" cy="130" r="${R}" fill="none" stroke="#1e2f52" stroke-width="12"/><circle cx="130" cy="130" r="${R}" fill="none" stroke="${p.c}" stroke-width="12" stroke-linecap="round" stroke-dasharray="${L}" stroke-dashoffset="${L*(1-pct)}" style="transition:stroke-dashoffset .6s"/></svg><div class="pulse"></div><div class="ic">${icon(cur.ic)}</div></div>
    <h3>${cur.n}</h3>${cur.after?"":`<div class="leftmin tnum"><b>${left}</b> min left</div>`}
-   <div class="taskcard" style="--c:${p.c};width:100%;text-align:left"><span class="avatar">${icon("team2")}</span><div style="display:flex;flex-direction:column;gap:4px;flex:1"><span class="who">Table Team</span><span class="do">${cur.do}</span>${splitHTML(cur)}<span class="rm">${icon("pin")}${cur.w}</span></div></div>`}
+   <div class="taskcard" style="--c:${p.c};width:100%;text-align:left"><span class="avatar">${icon("team2")}</span><div style="display:flex;flex-direction:column;gap:4px;flex:1"><span class="who">Table Team</span><span class="do">${cur.do}</span>${splitHTML(cur)}<span class="rm">${icon("pin")}${cur.w}</span>${scrHTML(cur)}</div></div>`}
  document.getElementById("nextcol").innerHTML=`<span class="eyebrow">Up next</span>`+(nxt.length?nxt.map(e=>{const p=ph(e.p);return `<div class="nextcard" style="--c:${p.c}"><span class="ic">${icon(e.ic)}</span><div><b>${e.n}</b><div class="rm">${icon("pin")}${e.w}</div><div style="font-size:15px;margin-top:4px">${e.do}</div></div><div class="cd tnum">${Math.max(0,e.s-m)}<small>min</small></div></div>`}).join(""):`<div class="nextcard" style="--c:var(--p5)"><span class="ic">${icon("check")}</span><b>${X.name} complete. Well done!</b></div>`);
  const pill=document.getElementById("modepill");pill.className="pill "+(live?"lv":"pr");pill.textContent=live?"Live":"Preview";
  simEl.disabled=live}
@@ -1086,7 +1106,7 @@ function renderScripts(){
  if(S.qa){b.innerHTML=`<div class="tapnote" style="margin-bottom:12px">${icon("hand")}Tap a card to see the answer</div><div class="qa">${QA.map(q=>`<button class="flip" style="--c:${COL[S.c]}"><div class="in"><div class="face front"><span class="ic">${icon(q[0])}</span><b>${q[1]}</b></div><div class="face back">${q[2]}</div></div></button>`).join("")}</div>`;
   b.querySelectorAll(".flip").forEach(f=>f.addEventListener("click",()=>f.classList.toggle("on")));return}
  if(S.chapel){b.innerHTML=`<div class="dayline" style="margin-bottom:12px">${icon("cal")}Day 2 · Chapel Visit #1 · prayer requests</div><ol class="numlist">${CHAPEL.map(x=>`<li>${x}</li>`).join("")}</ol><div class="dayline" style="margin-top:14px">${icon("music")}Open with the theme song "In Him is Life" · close with the Lord's Prayer</div>`;return}
- b.innerHTML=`<div class="dayline" style="margin-bottom:12px">${icon("pin")}${S.where}</div><div class="chat">${S.chat.map((m,i)=>`<div class="bub ${m[0]}" style="animation-delay:${i*.08}s"><span class="av">${icon(m[0]==="you"?"team2":m[0]==="them"?"people":"eye")}</span><p>${m[1]}</p></div>`).join("")}</div>`}
+ b.innerHTML=`<div class="dayline" style="margin-bottom:12px">${icon("pin")}${S.where}</div><div class="chat">${chatHTML(S.chat)}</div>`}
 renderScripts();
 
 /* ================= after ================= */
