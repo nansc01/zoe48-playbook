@@ -849,29 +849,31 @@ const DAYS={
 4:{name:"Day 4",wd:"Fri",date:"Friday, Dec 4",theme:"Love & Sending",date0:[2026,11,4],
  PH:[{id:1,n:"Morning",ic:"sun",s:330},{id:2,n:"Love",ic:"heart",s:600},{id:3,n:"Check-out",ic:"suitcase",s:735},{id:4,n:"Commencement",ic:"cap",s:825},{id:5,n:"Send-off",ic:"car",s:1005}],
  EV:[
-  {s:330,e:360,p:1,ic:"sun",n:"Team wake-up",w:"Team rooms",do:"Zoe sweatshirt on"},
-  {s:360,e:390,p:1,ic:"people",n:"Team meeting",w:"Meeting room",do:"Be on time · no table moves today"},
+  {s:330,e:360,p:1,ic:"sun",n:"Team wake-up",w:"Team rooms",do:"Zoe T-shirt + name tag on"},
+  {s:360,e:390,p:1,ic:"people",n:"Team meeting",w:"Meeting room",do:"Be on time · no more table relocations"},
   {s:390,e:415,p:1,ic:"bell",n:"Candidate wake-up",w:"3rd floor",do:"Bring candidates down"},
-  {s:420,e:460,p:1,ic:"plate",n:"Breakfast",w:"Dining Room",do:"Arrive first · collect testimony forms"},
+  {s:420,e:460,p:1,ic:"plate",n:"Breakfast",w:"Dining Room",do:"Arrive first · collect testimony forms during breakfast"},
   {s:465,e:495,p:1,ic:"music",n:"Praise & Worship",w:"Lecture Room",do:"Get to the Lecture Room before candidates · hold up your table sign"},
   {s:495,e:585,p:1,ic:"book",n:"Lecture 10 · The Church",w:"Lecture Room",do:"Take notes · keep everyone awake"},
-  {s:585,e:600,p:1,ic:"coffee",n:"Coffee & book sale",w:"Lobby",do:"Collect last testimony forms"},
+  {s:585,e:600,p:1,ic:"coffee",n:"Coffee & book sale",w:"Lobby",do:"Collect any remaining testimony forms"},
   {s:600,e:620,p:2,ic:"music",n:"Praise & Worship",w:"Lecture Room",do:"Get to the Lecture Room before candidates · hold up your table sign"},
-  {s:620,e:705,p:2,ic:"heart",n:"Lecture 11 · Love",w:"Lecture Room",key:1,do:"Hugging Time: embrace with real love"},
-  {s:720,e:730,p:2,ic:"env",n:"Offering announcement",w:"Lecture Room",do:"Hand out offering envelopes"},
-  {s:730,e:735,p:2,ic:"mega",n:"Check-out announcement",w:"Lecture Room",key:1,do:"Receivers + Bibles stay"},
-  {s:735,e:780,p:3,ic:"suitcase",n:"Pack + check out",w:"3rd floor",key:1,do:"Suit on · your bag to Prayer Room",split:{th:"Up with candidates to pack",ta:"Receivers to the station"}},
-  {s:785,e:825,p:3,ic:"plate",n:"Lunch",w:"Dining Room",do:"Go straight there · then lobby line-up"},
-  {s:825,e:895,p:4,ic:"cap",n:"Commencement",w:"Lecture Room",key:1,do:"Hug only your table",split:{th:"Front of your row, then back",ta:"Hand out receivers, then back"}},
+  {s:620,e:705,p:2,ic:"heart",n:"Lecture 11 · Love",w:"Lecture Room",key:1,do:"Hugging Time after the lecture: really embrace candidates with love · some are deeply hurt emotionally"},
+  {s:720,e:730,p:2,ic:"env",n:"Offering announcement",w:"Lecture Room",do:"Envelopes are at each table · TH hands one to each candidate",note:"Candidates missing suitcase tags get them from the Aux Team now"},
+  {s:730,e:735,p:2,ic:"mega",n:"Check-out announcement",w:"Lecture Room",key:1,do:"Leave receivers, transmitters + Bibles behind"},
+  {s:735,e:780,p:3,ic:"suitcase",n:"Pack + check out",w:"3rd floor",key:1,do:"About 45 min · suit on · your bag to the Prayer Room",split:{th:"Up with candidates to pack + change into suits",ta:"Move all receivers to the station by the Morning Prayer Room"},sl:"Step by step",steps:[["mega","AD announces check-out","TH + TA go up with candidates to pack"],["suitcase","Candidates take everything","Except receivers and Bibles"],["suit","TH: suits on","Go with candidates to change · suitcases should already be packed"],["receiver","TA: receivers","Stay and move all receivers to the station in front of the Morning Prayer Room for Commencement"],["coat","Your own suitcase","Bring it straight down to the Prayer Room · coat on top for send-off"],["stairs","Candidates' suitcases","Leave them at the 3rd floor elevator for Aux to load, then go to the Dining Room"],["plate","TH to lunch","Get to the Dining Room before candidates"]]},
+  {s:785,e:825,p:3,ic:"plate",n:"Lunch",w:"Dining Room",do:"Go straight there · then lobby line-up with your table flag"},
+  {s:825,e:895,p:4,ic:"cap",n:"Commencement",w:"Lecture Room",key:1,do:"New seating today · hug only your table",split:{th:"Stand in front of your candidates' row, then go to the team section",ta:"Hand out receivers at the station, then stand in the team section"},sl:"Step by step",steps:[["flag","Lobby line-up","From the Dining Room with your table flag · alphabetical order, same as the photo"],["mega","Chief TH calls the team in","TH + TA enter the Lecture Room before candidates"],["receiver","TA at the receiver station","Hand out receivers as candidates enter"],["rows","TH at your row","Stand in front of your candidates' row · once they're seated, move to the team section in back"],["heart","Hugging","TH + TA hug only their own table · regional group leaders don't hug candidates"]]},
   {s:895,e:930,p:4,ic:"send",n:"Lecture 12 · Sending",w:"Lecture Room",do:"Team section in back"},
-  {s:930,e:960,p:4,ic:"chalice",n:"Communion",w:"Lecture Room",do:"Team section in back"},
+  {s:930,e:960,p:4,ic:"chalice",n:"Communion",w:"Lecture Room",do:"Team section in back",note:"Last year this was cut from 30 to about 10 minutes, so later items may start early"},
   {s:960,e:970,p:4,ic:"coins",n:"Offering",w:"Lecture Room",do:"Envelopes from this morning"},
   {s:970,e:990,p:4,ic:"music",n:"Praise",w:"Lecture Room",do:"Worship with the room"},
-  {s:990,e:1005,p:4,ic:"star",n:"Team applause + video",w:"Lecture Room",do:"Stand up · be thanked"},
+  {s:990,e:1005,p:4,ic:"star",n:"Team applause + video",w:"Lecture Room",do:"Stand up · be thanked · announcements + Zoe video clip"},
   {s:1005,e:1080,p:5,ic:"mic",n:"Candidate testimonies",w:"Lecture Room",do:"Chosen candidate ready · cheer them on"},
-  {s:1080,e:1085,p:5,ic:"box",n:"Belongings returned",w:"Lecture Room",do:"Candidates get Day 1 items back"},
-  {s:1085,e:1095,p:5,ic:"car",n:"Send-off",w:"Hallway → outside",key:1,do:"Coat · hallway line · wave goodbye"},
-  {s:1095,e:1110,p:5,ic:"church",n:"Pack-up + dinner at church",w:"Church",after:1,do:"Load equipment · stay until every candidate has a ride"}
+  {s:1080,e:1085,p:5,ic:"box",n:"Belongings returned",w:"Lecture Room",do:"Candidates get their Day 1 belongings back"},
+  {s:1085,e:1095,p:5,ic:"car",n:"Send-off",w:"Hallway → outside",key:1,do:"AD announces rides · coat on · hallway line · wave goodbye",sl:"Step by step",steps:[["coat","Get your coat","From the Morning Prayer Room"],["people","Reception line","TH + TA line the hallway with KM TH while AD announces rides"],["car","Outside","Go out with KM TH to send candidates off · no neon rings this year"]]},
+  {s:1095,e:1110,p:5,ic:"box",n:"Pack + load gear",w:"Chateau",after:1,do:"Translation booths, receivers, transmitters + supplies"},
+  {s:1110,e:1200,p:5,ic:"car",n:"Back to church",w:"Car assignment",after:1,do:"Go by your car assignment",note:"Designated Translation Team members ride with candidates in the same car if needed"},
+  {s:1200,e:1260,p:5,ic:"church",n:"Dinner at church",w:"Church",do:"Eat with your candidates · all TH + TA stay until every candidate has a ride home"}
  ]}
 };
 for(const d in DAYS){const D=DAYS[d];D.PH.forEach((p,i)=>{p.c=COL[p.id];p.e=(D.PH[i+1]?D.PH[i+1].s:Math.max(...D.EV.map(e=>e.e)))});D.T0=D.EV[0].s;D.T1=Math.max(...D.EV.map(e=>e.e))}
@@ -939,19 +941,19 @@ const FLOWS={
      watch:[["people","Undecided? Tell the Team Leader"],["speech","Assigned TH translates"],["ban","Go only if they choose to"]]},
     {n:"Chapel Visit #2",tm:"11:15pm",c:5,ic:"pray",cols:[{b:["form","Timer + testimony forms from Chief"]},{b:["mic","Each shares, 3 min"]},{b:["pray","TH closes in prayer"]},{b:["form","Hand out testimony forms"]},{b:["star","Grade A/B/C · only A+ shares"]},{b:["speech","Tell tomorrow's speaker tonight"]}],
      watch:[["ban","Don't cast out demons here"],["clock","Stay within the time limit"],["sweat","Zoe T-shirt again tomorrow"]]}],
- 4:[{n:"Check-out",tm:"12:15pm",c:3,ic:"suitcase",cols:[{b:["mega","AD gives the cue"]},{th:["people","Up with candidates"],ta:["receiver","Receivers to station"]},{b:["suit","Everyone into suits"]},{b:["suitcase","Your bag to Prayer Room, coat on top"]},{b:["plate","Straight to lunch"]}],
-     watch:[["receiver","Receivers + Bibles stay"],["tag","Every bag tagged"],["coat","Coat on top, not packed"]]},
-    {n:"Commencement",tm:"1:45pm",c:4,ic:"cap",cols:[{b:["flag","Lobby line-up with flag"]},{th:["people","Enter first, stand at your row"],ta:["receiver","Hand out receivers"]},{b:["stairs","Move to team section in back"]},{b:["heart","Hug only your table"]}],
-     watch:[["rows","New seating today"],["ban","Group leaders don't hug"],["flag","Bring your table flag"]]},
-    {n:"Send-off",tm:"6:00pm",c:5,ic:"car",cols:[{b:["box","Belongings returned"]},{b:["coat","Coat from Prayer Room"]},{b:["people","Hallway reception line"]},{b:["car","Wave goodbye outside"]},{b:["church","Dinner · stay till rides"]}],
-     watch:[["ban","No neon rings"],["car","Ride along if assigned"],["phone","No ride? Tell Team Leader"]]}]
+ 4:[{n:"Check-out",tm:"12:15pm",c:3,ic:"suitcase",cols:[{b:["mega","AD announces check-out"]},{th:["suit","Up with candidates · suits on"],ta:["receiver","Receivers to station by Prayer Room"]},{b:["suitcase","Your suitcase to Prayer Room, coat on top"]},{b:["stairs","Candidates' bags at 3rd floor elevator"]},{b:["plate","TH to Dining Room first"]}],
+     watch:[["receiver","Receivers, transmitters + Bibles stay"],["tag","Missing tags? Aux hands them out"],["coat","Coat on top, not packed"]]},
+    {n:"Commencement",tm:"1:45pm",c:4,ic:"cap",cols:[{b:["flag","Lobby line-up, alphabetical, with flag"]},{b:["mega","Chief TH sends team in first"]},{th:["rows","Front of your row, then team section"],ta:["receiver","Hand out receivers at station"]},{b:["stairs","Team section in back"]},{b:["heart","Hug only your table"]}],
+     watch:[["rows","New seating today"],["ban","Regional group leaders don't hug"],["flag","Bring your table flag"]]},
+    {n:"Send-off",tm:"6:00pm",c:5,ic:"car",cols:[{b:["box","Belongings returned"]},{b:["coat","Coat from Morning Prayer Room"]},{b:["people","Hallway line with KM TH"]},{b:["car","Outside with KM TH, wave goodbye"]},{b:["receiver","Pack + load translation gear"]},{b:["church","Back to church · dinner 8pm"]}],
+     watch:[["ban","No neon rings"],["car","Ride along if designated"],["phone","Stay until every candidate has a ride"]]}]
 };
 
 const RULES={
  1:[["suit","Suit on after late lunch",2],["people","Greet non-Korean-speaking candidates",3],["ban","Don't run back to the elevator",1],["ban","No traffic, weather or politics talk",2],["plate","Eat + drink modestly at the party",4],["env","Envelope: full name + table letter",5]],
  2:[["cup","1 cup each · write your name on it",1],["ban","No bottled water",2],["flag","TH in the room before candidates",3],["people","Facilitate, don't dominate",4],["ban","Never debate, judge or condemn",2],["sweat","Sweatshirts on tomorrow",5]],
  3:[["sweat","Zoe sweatshirt in the morning",1],["cup","No drinking with candidates at soda break",2],["sweat","Baptism: navy T-shirt under robe (women)",3],["shower","Shower caps ready for baptism",3],["plate","Bibimbap for vegetarians",4],["shield","No casting out in chapel · call Prayer Team",5]],
- 4:[["heart","Hug only your table at commencement",2],["receiver","Receivers + Bibles stay behind",3],["tag","Every suitcase tagged",4],["ban","No neon rings · no table moves",1],["coat","Coat on your suitcase for send-off",5],["phone","Call candidates Saturday",5]]
+ 4:[["heart","Hug only your table at commencement",2],["receiver","Receivers + Bibles stay behind",3],["sweat","Zoe T-shirt + name tag",4],["ban","No neon rings · no table moves",1],["coat","Coat on your suitcase for send-off",5],["phone","Call candidates Saturday",5]]
 };
 
 /* ================= state ================= */
@@ -967,7 +969,7 @@ const subHTML=(e,c)=>e.sub?`<div class="subs" style="--c:${c}">${e.sub.map((x,i)
 
 const chatHTML=c=>c.map((m,i)=>`<div class="bub ${m[0]}" style="animation-delay:${i*.08}s"><span class="av">${icon(m[0]==="you"?"team2":m[0]==="them"?"people":"eye")}</span><p>${m[1]}</p></div>`).join("");
 const whoHTML=e=>(e.who?`<div class="whobox"><div class="k">Who's on it</div>${e.who.map(w=>`<div class="wrow">${icon(w[0])}<b>${w[1]}</b><span>${w[2]}</span></div>`).join("")}</div>`:"")+(e.note?`<div class="enote">${icon("bell")}<span>${e.note}</span></div>`:"");
-const stepsHTML=(e,c)=>e.steps?`<div class="steplist" style="--c:${c}"><div class="k">Order of the night</div><ol>${e.steps.map(x=>`<li><span class="si">${icon(x[0])}</span><span><b>${x[1]}</b><small>${x[2]}</small></span></li>`).join("")}</ol></div>`:"";
+const stepsHTML=(e,c)=>e.steps?`<div class="steplist" style="--c:${c}"><div class="k">${e.sl||"Order of the night"}</div><ol>${e.steps.map(x=>`<li><span class="si">${icon(x[0])}</span><span><b>${x[1]}</b><small>${x[2]}</small></span></li>`).join("")}</ol></div>`:"";
 const scrHTML=e=>e.scr?`<div class="scrs">${e.scr.map(i=>{const S=SCRIPTS[i];return `<details class="scr" style="--c:${COL[S.c]}"><summary>${icon("speech")}<span>${S.n} script</span><small>${S.where.split(" · ").pop()}</small>${icon("right","i chev")}</summary><div class="chat">${chatHTML(S.chat)}</div><button class="pbtn" data-goscr="${i}">${icon("speech")}Open in Scripts</button></details>`}).join("")}</div>`:"";
 document.addEventListener("click",ev=>{const b=ev.target.closest("[data-goscr]");if(b){si=+b.dataset.goscr;renderScripts();go("scripts")}});
 
